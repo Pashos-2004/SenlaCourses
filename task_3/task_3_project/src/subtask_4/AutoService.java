@@ -115,24 +115,24 @@ class AutoService {
     }
     
     private Master findMasterById(int id) {
-        return masters.stream()
-                .filter(master -> master.getId() == id)
-                .findFirst()
-                .orElse(null);
+    	for(Master master : masters) {
+        	if(master.getId()==id) return master;
+        }
+    	return null;
     }
     
     private GarageSpot findSpotById(int id) {
-        return garageSpots.stream()
-                .filter(spot -> spot.getId() == id)
-                .findFirst()
-                .orElse(null);
+    	for(GarageSpot garageSpot : garageSpots) {
+    		if(garageSpot.getId()==id) return garageSpot;
+        }
+    	return null;
     }
     
     private Order findOrderById(int id) {
-        return orders.stream()
-                .filter(order -> order.getId() == id)
-                .findFirst()
-                .orElse(null);
+    	for(Order order : orders) {
+    		if(order.getId()==id) return order;
+        }
+    	return null;
     }
     
     public void printListOfMasters() {
