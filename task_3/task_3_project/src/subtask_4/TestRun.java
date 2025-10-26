@@ -18,9 +18,9 @@ public class TestRun {
 		autoService.addGarageSpot("B1");
 		System.out.println();
 		
-		autoService.addOrder("Олег Васильев", "Toyota Camry", "Замена масла", 1, 1);
-		autoService.addOrder("Марина Иванова", "Honda Civic", "Ремонт кузова", 2, 2);
-        autoService.addOrder("Дмитрий Смирнов", "BMW X5", "Диагностика электрики", 3, 3);
+		autoService.addOrder("Олег Васильев", "Toyota Camry", "Замена масла", 1, 1, 2, 0);
+		autoService.addOrder("Марина Иванова", "Honda Civic", "Ремонт кузова", 2, 2, 0, 20);
+        autoService.addOrder("Дмитрий Смирнов", "BMW X5", "Диагностика электрики", 3, 3, 1, 1);
 		System.out.println();
 		
         autoService.printListOfMasters();

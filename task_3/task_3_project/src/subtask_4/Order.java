@@ -1,5 +1,8 @@
 package subtask_4;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
+
 enum OrderStatus {
     PENDING, IN_PROGRESS, COMPLETED, CANCELLED
 }
@@ -13,8 +16,8 @@ class Order {
     private Master master;
     private GarageSpot garageSpot;
     private OrderStatus status;
-    private java.time.LocalDateTime startTime;
-    private java.time.LocalDateTime estimatedEndTime;
+    private LocalDateTime startTime;
+    private LocalDateTime estimatedEndTime;
     
     public Order(int id, String clientName, String carModel, String description, 
                  Master master, GarageSpot garageSpot) {
@@ -25,40 +28,19 @@ class Order {
         this.master = master;
         this.garageSpot = garageSpot;
         this.status = OrderStatus.PENDING;
-        this.startTime = java.time.LocalDateTime.now();
-        this.estimatedEndTime = this.startTime.plusHours(2);
+        this.startTime = LocalDateTime.now();
     }
     
     public Order(int id, String clientName, String carModel, String description, 
-            Master master, GarageSpot garageSpot, int hoursOfWork) {
-	   this.id = id;
-	   this.clientName = clientName;
-	   this.carModel = carModel;
-	   this.description = description;
-	   this.master = master;
-	   this.garageSpot = garageSpot;
-	   this.status = OrderStatus.PENDING;
-	   this.startTime = java.time.LocalDateTime.now();
-	   this.estimatedEndTime = this.startTime.plusHours(hoursOfWork);
-	}
-    
-    public Order(int id, String clientName, String carModel, String description, 
             Master master, GarageSpot garageSpot, int hoursOfWork, int daysOfWork) {
-	   this.id = id;
-	   this.clientName = clientName;
-	   this.carModel = carModel;
-	   this.description = description;
-	   this.master = master;
-	   this.garageSpot = garageSpot;
-	   this.status = OrderStatus.PENDING;
-	   this.startTime = java.time.LocalDateTime.now();
-	   this.estimatedEndTime = this.startTime.plusHours(hoursOfWork);
-	   this.estimatedEndTime = this.estimatedEndTime.plusDays(daysOfWork);
+    	this(id,clientName,carModel,description,master,garageSpot);
+    	this.estimatedEndTime = this.startTime.plusHours(hoursOfWork);
+    	this.estimatedEndTime = this.estimatedEndTime.plusDays(daysOfWork);
 	}
     
     public int getId() { 
     	return id; 
-    
+ 
     }
     
     public String getClientName() { 
@@ -85,11 +67,11 @@ class Order {
     	return status; 
     }
     
-    public java.time.LocalDateTime getStartTime() {
+    public LocalDateTime getStartTime() {
     	return startTime; 
     }
     
-    public java.time.LocalDateTime getEstimatedEndTime() {
+    public LocalDateTime getEstimatedEndTime() {
     	return estimatedEndTime; 
     }
     
@@ -97,11 +79,11 @@ class Order {
     	this.status = status; 
     }
     
-    public void setEstimatedEndTime(java.time.LocalDateTime estimatedEndTime) { 
+    public void setEstimatedEndTime(LocalDateTime estimatedEndTime) { 
         this.estimatedEndTime = estimatedEndTime; 
     }
     
-    public void shiftTime(java.time.Duration duration) {
+    public void shiftTime(Duration duration) {
         this.estimatedEndTime = this.estimatedEndTime.plus(duration);
     }
     
@@ -109,7 +91,7 @@ class Order {
     public String toString() {
         return "Order{id=" + id + ", client='" + clientName + "', car='" + carModel + 
                "', status=" + status + ", master=" + master.getName() + 
-               ", spot=" + garageSpot.getBox() + "}";
+               ", spot=" + garageSpot.getBox() +", startTime="+startTime+ ", estimatedEndTime "+ estimatedEndTime +"}";
     }
     
 }

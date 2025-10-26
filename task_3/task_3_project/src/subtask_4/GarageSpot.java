@@ -3,12 +3,12 @@ package subtask_4;
 class GarageSpot {
 	private int id;
     private String box;
-    private boolean available;
+    private boolean isAvailable;
     
     public GarageSpot(int id , String box) {
         this.id = id;
     	this.box = box;
-        this.available = true;
+        this.isAvailable = true;
     }
     
     public int getId() { 
@@ -19,16 +19,16 @@ class GarageSpot {
     	return box; 
     }
     
-    public boolean isAvailable() { 
-    	return available; 
+    public boolean getIsAvailable() { 
+    	return isAvailable; 
     }
     
-    public void setAvailable(boolean available) { 
-    	this.available = available; 
+    public void setIsAvailable(boolean isAvailable) { 
+    	this.isAvailable = isAvailable; 
     }
     
     @Override
     public String toString() {
-        return "GarageSpot{id=" + id + ", box='" + box + "', available=" + available + "}";
+        return "GarageSpot{id=" + id + ", box='" + box + "', available=" + isAvailable + "}";
     }
 }

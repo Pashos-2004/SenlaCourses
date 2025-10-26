@@ -27,11 +27,11 @@ class Master {
     	this.id = id;
     }
     
-    public void getName(String name) {
+    public void setName(String name) {
     	this.name = name;
     }
     
-    public void getSpecialization(String specialization) {
+    public void setSpecialization(String specialization) {
     	this.specialization = specialization; 
     }
     

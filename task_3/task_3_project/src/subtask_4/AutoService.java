@@ -1,9 +1,12 @@
 package subtask_4;
 
+import java.time.Duration;
+import java.util.List;
+
 class AutoService {
-    private java.util.List<Master> masters;
-    private java.util.List<GarageSpot> garageSpots;
-    private java.util.List<Order> orders;
+    private List<Master> masters;
+    private List<GarageSpot> garageSpots;
+    private List<Order> orders;
     private int nextMasterId;
     private int nextSpotId;
     private int nextOrderId;
@@ -48,7 +51,7 @@ class AutoService {
     }
     
     public void addOrder(String clientName, String carModel, String description, 
-                         int masterId, int spotId) {
+                         int masterId, int spotId, int hoursOfWork, int daysOfWork) {
         Master master = findMasterById(masterId);
         GarageSpot spot = findSpotById(spotId);
         
@@ -60,14 +63,14 @@ class AutoService {
             System.out.println("Гаражное место с ID " + spotId + " не найдено");
             return;
         }
-        if (!spot.isAvailable()) {
+        if (!spot.getIsAvailable()) {
             System.out.println("Гаражное место " + spot.getBox() + " занято");
             return;
         }
         
-        Order order = new Order(nextOrderId++, clientName, carModel, description, master, spot);
+        Order order = new Order(nextOrderId++, clientName, carModel, description, master, spot, hoursOfWork, daysOfWork);
         orders.add(order);
-        spot.setAvailable(false);
+        spot.setIsAvailable(false);
         System.out.println("Добавлен заказ: " + order);
     }
     
@@ -75,7 +78,7 @@ class AutoService {
         Order order = findOrderById(orderId);
         if (order != null) {
             orders.remove(order);
-            order.getGarageSpot().setAvailable(true);
+            order.getGarageSpot().setIsAvailable(true);
             System.out.println("Заказ с ID " + orderId + " удален");
         } else {
             System.out.println("Заказ с ID " + orderId + " не найден");
@@ -86,7 +89,7 @@ class AutoService {
         Order order = findOrderById(orderId);
         if (order != null) {
             order.setStatus(OrderStatus.COMPLETED);
-            order.getGarageSpot().setAvailable(true);
+            order.getGarageSpot().setIsAvailable(true);
             System.out.println("Заказ с ID " + orderId + " завершен");
         } else {
             System.out.println("Заказ с ID " + orderId + " не найден");
@@ -97,14 +100,14 @@ class AutoService {
         Order order = findOrderById(orderId);
         if (order != null) {
             order.setStatus(OrderStatus.CANCELLED);
-            order.getGarageSpot().setAvailable(true);
+            order.getGarageSpot().setIsAvailable(true);
             System.out.println("Заказ с ID " + orderId + " отменен");
         } else {
             System.out.println("Заказ с ID " + orderId + " не найден");
         }
     }
     
-    public void shiftOrderTime(int orderId, java.time.Duration duration) {
+    public void shiftOrderTime(int orderId, Duration duration) {
         Order order = findOrderById(orderId);
         if (order != null) {
             order.shiftTime(duration);
