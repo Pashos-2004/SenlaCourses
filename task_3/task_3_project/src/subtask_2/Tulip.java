@@ -1,8 +1,10 @@
 package subtask_2;
 
+import java.math.BigDecimal;
+
 public class Tulip extends Flower {
     
-    public Tulip(double price,String color) {
+    public Tulip(BigDecimal price,String color) {
         super("Тюльпан", price, color);
     }
     

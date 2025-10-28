@@ -1,10 +1,12 @@
 package subtask_2;
 
+import java.math.BigDecimal;
+
 public class Lily extends Flower{
 
 	public boolean isTerry ;
 	
-	public Lily (double price, String color, boolean isTerry) {
+	public Lily (BigDecimal price, String color, boolean isTerry) {
 		super("Лилия", price, color);
 		this.isTerry = isTerry;
 	}

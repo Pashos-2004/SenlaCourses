@@ -37,17 +37,18 @@ class Bouquet {
 	}
 	
 	public void calculatePriceOfBouquet() {
-		BigDecimal sum = 0;
+		BigDecimal sum = new BigDecimal("0.00");
+		
 		System.out.println("В ссоставе букета:");
 		for(Entry<Flower, Integer> entry: flowers.entrySet()) {
 			   Flower flower = entry.getKey();
 			   int count = entry.getValue();
-			   sum+=count*flower.getPrice();
-			   System.out.println(String.format("%s в количестве %s шт.",flower,count));
+			   sum = sum.add(flower.price.multiply(BigDecimal.valueOf(count)));
+			   System.out.println(String.format("%s в количестве %s шт.",flower.showFlowerInfo(),count));
 			   }
 		
 		System.out.println(String.format("Упаковка : %s; цена : %s", packaging,packagingPrice));
-		sum+=packagingPrice;
+		sum = sum.add(packagingPrice);
 		System.out.println("Итого : " + sum );
 		
 	} 

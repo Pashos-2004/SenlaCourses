@@ -1,13 +1,16 @@
 package subtask_2;
 
+import java.math.BigDecimal;
+
 abstract class Flower {
 	protected String name;
-    protected double price;
+    protected BigDecimal price;
     protected String color;
     
-    public Flower(String name, double price, String color) {
+    public Flower(String name, BigDecimal price, String color) {
         this.name = name;
         this.price = price;
+        this.price.setScale(2);
         this.color = color;
     }
     
@@ -15,7 +18,7 @@ abstract class Flower {
         return name;
     }
     
-    public double getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
     
@@ -23,14 +26,16 @@ abstract class Flower {
         return color;
     }
     
-    public double setPrice() {
-        return price;
+    public void setPrice(BigDecimal price) {
+        this.price = price;
     }
     
-    public String setColor() {
-        return color;
+    public void etColor(String color) {
+        this.color = color;
     }
     
     public abstract String showFlowerInfo();
 }
+
+
 
