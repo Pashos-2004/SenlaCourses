@@ -16,11 +16,13 @@ public class TestRun {
 		autoService.addGarageSpot("A1");
 		autoService.addGarageSpot("A2");
 		autoService.addGarageSpot("B1");
+		autoService.addGarageSpot("B2");
 		System.out.println();
 		
 		autoService.addOrder("Олег Васильев", "Toyota Camry", "Замена масла", 1, 1, 2, 0);
 		autoService.addOrder("Марина Иванова", "Honda Civic", "Ремонт кузова", 2, 2, 0, 20);
         autoService.addOrder("Дмитрий Смирнов", "BMW X5", "Диагностика электрики", 3, 3, 1, 1);
+        autoService.addOrder("Анатолий Кузьмин", "Nissan note", "Диагностика стартера", 3, 4, 1, 1);
 		System.out.println();
 		
         autoService.printListOfMasters();
@@ -35,6 +37,7 @@ public class TestRun {
 		
         autoService.removeMaster(2);
         autoService.removeGarageSpot(2);
+        autoService.removeOrder(autoService.getOrders().get(3));
 		System.out.println();
 		
         autoService.printListOfMasters();

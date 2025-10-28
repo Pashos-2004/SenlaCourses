@@ -4,17 +4,14 @@ import java.time.Duration;
 import java.util.List;
 
 class AutoService {
-    private List<Master> masters;
-    private List<GarageSpot> garageSpots;
-    private List<Order> orders;
+    private List<Master> masters = new java.util.ArrayList<>();
+    private List<GarageSpot> garageSpots = new java.util.ArrayList<>();
+    private List<Order> orders = new java.util.ArrayList<>();
     private int nextMasterId;
     private int nextSpotId;
     private int nextOrderId;
     
     public AutoService() {
-        this.masters = new java.util.ArrayList<>();
-        this.garageSpots = new java.util.ArrayList<>();
-        this.orders = new java.util.ArrayList<>();
         this.nextMasterId = 1;
         this.nextSpotId = 1;
         this.nextOrderId = 1;
@@ -24,6 +21,16 @@ class AutoService {
         Master master = new Master(nextMasterId++, name, specialization);
         masters.add(master);
         System.out.println("Добавлен мастер: " + master);
+    }
+    
+    public void removeMaster(Master master) {
+        
+        if (masters.contains(master)) {
+        	masters.remove(master);
+            System.out.println("Мастер с ID " + master + " удален");
+        } else {
+            System.out.println("Мастер с ID " + master + " не найден");
+        }
     }
     
     public void removeMaster(int masterId) {
@@ -39,6 +46,16 @@ class AutoService {
         GarageSpot spot = new GarageSpot(nextSpotId++, number);
         garageSpots.add(spot);
         System.out.println("Добавлено гаражное место: " + spot);
+    }
+    
+    public void removeGarageSpot(GarageSpot garageSpot) {
+        
+        if (garageSpots.contains(garageSpot)) {
+        	garageSpots.remove(garageSpot);
+            System.out.println("Гаражное место  " + garageSpot + " удалено");
+        } else {
+            System.out.println("Гаражное место  " + garageSpot + " не найдено");
+        }
     }
     
     public void removeGarageSpot(int spotId) {
@@ -72,6 +89,16 @@ class AutoService {
         orders.add(order);
         spot.setIsAvailable(false);
         System.out.println("Добавлен заказ: " + order);
+    }
+    
+    public void removeOrder(Order order) {
+    	if(orders.contains(order)) {
+    		orders.remove(order);
+    		order.getGarageSpot().setIsAvailable(true);
+    		System.out.println("Заказ с ID " + order.getId() + " удален");
+    	} else {
+    		System.out.println("Заказ с ID " + order.getId() + " не найлен");
+    	}
     }
     
     public void removeOrder(int orderId) {
@@ -150,7 +177,6 @@ class AutoService {
         for(GarageSpot garageSpot : garageSpots) {
         	System.out.println(garageSpot);
         }
-        
     }
     
     public void printListOfOrders() {
@@ -158,6 +184,18 @@ class AutoService {
         for(Order order : orders) {
         	System.out.println(order);
         }
-        
     }
+    
+    
+    public List<Master> getMasters() {
+		return  masters;
+	}
+    
+    public List<Order> getOrders() {
+		return orders;
+	}
+    
+    public List<GarageSpot> getGarageSpots() {
+		return garageSpots;
+	}
 }
