@@ -33,7 +33,7 @@ class Bouquet {
 	
 	public void addFlower(Flower flower, int count) {
 		flowers.put(flower,flowers.containsKey(flower) ?  flowers.get(flower)+count : count)  ;
-		System.out.println(String.format("Добавлен %s в количестве %s шт.",flower.showFlowerInfo(),count));
+		System.out.println(String.format("Добавлен %s в количестве %s шт.",flower,count));
 	}
 	
 	public void calculatePriceOfBouquet() {
@@ -44,7 +44,7 @@ class Bouquet {
 			   Flower flower = entry.getKey();
 			   int count = entry.getValue();
 			   sum = sum.add(flower.price.multiply(BigDecimal.valueOf(count)));
-			   System.out.println(String.format("%s в количестве %s шт.",flower.showFlowerInfo(),count));
+			   System.out.println(String.format("%s в количестве %s шт.",flower,count));
 			   }
 		
 		System.out.println(String.format("Упаковка : %s; цена : %s", packaging,packagingPrice));

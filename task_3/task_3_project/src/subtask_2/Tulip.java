@@ -9,7 +9,7 @@ public class Tulip extends Flower {
     }
     
     @Override
-    public String showFlowerInfo() {
+    public String toString() {
     	return String.format("%s ; цвет : %s; цена : %s;", name,color,price);
     }
 }

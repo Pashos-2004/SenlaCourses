@@ -12,7 +12,7 @@ public class Rose extends Flower{
 	}
 
 	@Override
-	public String showFlowerInfo() {
+	public String toString() {
 		
 		return String.format("%s %s; цвет : %s; цена : %s;", name,isRoseThornRemoved ? "с шипами":"без шипов",color,price);	
 	}

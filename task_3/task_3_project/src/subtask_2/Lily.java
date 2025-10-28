@@ -12,7 +12,7 @@ public class Lily extends Flower{
 	}
 
 	@Override
-	public String showFlowerInfo() {
+	public String toString() {
 		
 		return String.format("%s %s; цвет : %s; цена : %s;", name,isTerry ? "махровая ":"обычная",color,price);	
 	}

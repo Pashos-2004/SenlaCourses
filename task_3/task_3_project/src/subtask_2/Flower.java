@@ -34,7 +34,6 @@ abstract class Flower {
         this.color = color;
     }
     
-    public abstract String showFlowerInfo();
 }
 
 
