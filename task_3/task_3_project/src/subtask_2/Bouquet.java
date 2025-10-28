@@ -1,5 +1,6 @@
 package subtask_2;
 
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -7,9 +8,9 @@ import java.util.Map.Entry;
 class Bouquet {
 	private Map<Flower, Integer> flowers = new HashMap<Flower, Integer>();
 	private String packaging;
-    private double packagingPrice;
+    private BigDecimal packagingPrice;
 	
-	public Bouquet(String packaging, double packagingPrice) {
+	public Bouquet(String packaging, BigDecimal packagingPrice) {
 		this.packaging = packaging;
 		this.packagingPrice = packagingPrice;
 	}
@@ -26,7 +27,7 @@ class Bouquet {
 		this.packaging = packaging;
 	}
 	
-	public void setPackagingPrice(double packagingPrice) {
+	public void setPackagingPrice(BigDecimal packagingPrice) {
 		this.packagingPrice = packagingPrice;
 	}
 	
@@ -36,13 +37,13 @@ class Bouquet {
 	}
 	
 	public void calculatePriceOfBouquet() {
-		double sum = 0;
+		BigDecimal sum = 0;
 		System.out.println("В ссоставе букета:");
 		for(Entry<Flower, Integer> entry: flowers.entrySet()) {
 			   Flower flower = entry.getKey();
 			   int count = entry.getValue();
 			   sum+=count*flower.getPrice();
-			   System.out.println(String.format("%s в количестве %s шт.",flower.showFlowerInfo(),count));
+			   System.out.println(String.format("%s в количестве %s шт.",flower,count));
 			   }
 		
 		System.out.println(String.format("Упаковка : %s; цена : %s", packaging,packagingPrice));
