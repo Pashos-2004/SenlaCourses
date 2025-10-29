@@ -1,1 +1,4 @@
 *.bkp
+.metadata/
+**/bin
+**.class
