@@ -11,6 +11,10 @@ class Master {
         this.specialization = specialization;
     }
     
+    public Master(int id, String name, String specialization, int maxOrdersOnDay) {
+        this(id,name,specialization);
+    }
+    
     public int getId() { 
     	return id;
     }
@@ -22,6 +26,7 @@ class Master {
     public String getSpecialization() {
     	return specialization; 
     }
+    
     
     public void setId(int id) { 
     	this.id = id;

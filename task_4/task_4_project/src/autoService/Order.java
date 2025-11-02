@@ -1,12 +1,9 @@
 package autoService;
 
 import java.time.Duration;
+import java.time.LocalDate;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
-
-enum OrderStatus {
-    PENDING, IN_PROGRESS, COMPLETED, CANCELLED
-}
-
 
 class Order {
     private int id;
@@ -16,11 +13,13 @@ class Order {
     private Master master;
     private GarageSpot garageSpot;
     private OrderStatus status;
-    private LocalDateTime startTime;
-    private LocalDateTime estimatedEndTime;
+    private LocalDate startTime;
+    private LocalDate planedStartTime;
+    private LocalDate estimatedEndTime;
+    private BigDecimal price;
     
     public Order(int id, String clientName, String carModel, String description, 
-                 Master master, GarageSpot garageSpot) {
+                 Master master, GarageSpot garageSpot,LocalDate planedStartTime ,LocalDate startTime, BigDecimal price) {
         this.id = id;
         this.clientName = clientName;
         this.carModel = carModel;
@@ -28,24 +27,40 @@ class Order {
         this.master = master;
         this.garageSpot = garageSpot;
         this.status = OrderStatus.PENDING;
-        this.startTime = LocalDateTime.now();
+        this.planedStartTime = planedStartTime;
+        this.startTime = startTime;
+        this.estimatedEndTime = startTime;
+        this.price = price;
     }
     
+    
     public Order(int id, String clientName, String carModel, String description, 
-            Master master, GarageSpot garageSpot, int hoursOfWork, int daysOfWork) {
-    	this(id,clientName,carModel,description,master,garageSpot);
-    	this.estimatedEndTime = this.startTime.plusHours(hoursOfWork);
+            Master master, GarageSpot garageSpot, LocalDate planedStartTime , int daysOfWork, BigDecimal price) {
+    	this(id,clientName,carModel,description,master,garageSpot,planedStartTime ,planedStartTime, price);
+    	this.estimatedEndTime = this.estimatedEndTime.plusDays(daysOfWork);
+	}
+    
+    public Order(int id, String clientName, String carModel, String description, 
+            Master master, GarageSpot garageSpot, LocalDate planedStartTime,LocalDate startTime  , int daysOfWork, BigDecimal price) {
+    	this(id,clientName,carModel,description,master,garageSpot,planedStartTime ,planedStartTime, price);
     	this.estimatedEndTime = this.estimatedEndTime.plusDays(daysOfWork);
 	}
     
     public int getId() { 
     	return id; 
- 
     }
     
     public String getClientName() { 
     	return clientName; 
     }
+    
+    public BigDecimal getPrice() {
+    	return price;
+	}
+    
+    public void setPrice(BigDecimal price) {
+		this.price = price;
+	}
     
     public String getCarModel() { 
     	return carModel; 
@@ -67,31 +82,40 @@ class Order {
     	return status; 
     }
     
-    public LocalDateTime getStartTime() {
+    public LocalDate getStartTime() {
     	return startTime; 
     }
     
-    public LocalDateTime getEstimatedEndTime() {
+    public LocalDate getEstimatedEndTime() {
     	return estimatedEndTime; 
+    }
+    
+    public LocalDate getPlanedStartTime () {
+    	return planedStartTime; 
     }
     
     public void setStatus(OrderStatus status) { 
     	this.status = status; 
     }
     
-    public void setEstimatedEndTime(LocalDateTime estimatedEndTime) { 
+    public void setEstimatedEndTime(LocalDate estimatedEndTime) { 
         this.estimatedEndTime = estimatedEndTime; 
     }
     
-    public void shiftTime(Duration duration) {
-        this.estimatedEndTime = this.estimatedEndTime.plus(duration);
+    public void setPlanedStartTime (LocalDate planedStartTime ) { 
+        this.planedStartTime = planedStartTime; 
+    }
+    
+    public void shiftTime(int countOfDays, boolean isShiftInFuture) {
+        if(isShiftInFuture) this.estimatedEndTime = this.estimatedEndTime.plusDays(countOfDays);
+        else this.estimatedEndTime = this.estimatedEndTime.minusDays(countOfDays);
     }
     
     @Override
     public String toString() {
         return "Order{id=" + id + ", client='" + clientName + "', car='" + carModel + 
                "', status=" + status + ", master=" + master.getName() + 
-               ", spot=" + garageSpot.getBox() +", startTime="+startTime+ ", estimatedEndTime "+ estimatedEndTime +"}";
+               ", spot=" + garageSpot.getBox() +", planedStartTime ="+planedStartTime +", startTime="+startTime+ ", estimatedEndTime= "+ estimatedEndTime + ", price="+price+"}";
     }
     
 }
