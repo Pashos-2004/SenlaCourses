@@ -113,27 +113,21 @@ class AutoService {
     
     
     private boolean isMasterAvailableOnDate(LocalDate startdate, LocalDate endDate,Master master) {
-    	for(Order order : orders) {
-    		if(order.getMaster().equals(master)) {
-    			if(order.getStatus().equals(OrderStatus.PENDING) || order.getStatus().equals(OrderStatus.IN_PROGRESS)) {
-    				if(!((order.getStartTime().isAfter(startdate) && order.getStartTime().isAfter(endDate)) || order.getEstimatedEndTime().isBefore(startdate) && order.getEstimatedEndTime().isBefore(endDate) ))
-    				return false;
-    			}
-    		}
-    	}
-    	return true;
+    	return orders.stream()
+        .noneMatch(
+            order -> order.getMaster().equals(master)
+                && (order.getStatus().equals(OrderStatus.PENDING) || order.getStatus().equals(OrderStatus.IN_PROGRESS))
+                && !((order.getStartTime().isAfter(startdate) && order.getStartTime().isAfter(endDate)) || order.getEstimatedEndTime().isBefore(startdate) && order.getEstimatedEndTime().isBefore(endDate) )
+        );
     }
     
     private boolean isGarageAvailableOnDate(LocalDate startdate, LocalDate endDate,GarageSpot spot) {
-    	for(Order order : orders) {
-    		if(order.getGarageSpot().equals(spot)) {
-    			if(order.getStatus().equals(OrderStatus.PENDING) || order.getStatus().equals(OrderStatus.IN_PROGRESS)) {
-    				if(!((order.getStartTime().isAfter(startdate) && order.getStartTime().isAfter(endDate)) || order.getEstimatedEndTime().isBefore(startdate) && order.getEstimatedEndTime().isBefore(endDate) ))
-    				return false;
-    			}
-    		}
-    	}
-    	return true;
+    	return orders.stream()
+        .noneMatch(
+            order -> order.getGarageSpot().equals(spot)
+                && (order.getStatus().equals(OrderStatus.PENDING) || order.getStatus().equals(OrderStatus.IN_PROGRESS))
+                && !((order.getStartTime().isAfter(startdate) && order.getStartTime().isAfter(endDate)) || order.getEstimatedEndTime().isBefore(startdate) && order.getEstimatedEndTime().isBefore(endDate) )
+        );
     }
     
     public void removeOrder(Order order) {
