@@ -22,16 +22,16 @@ public class TestRun {
 		autoService.addGarageSpot("B2");
 		System.out.println();
 		
-		autoService.addOrder("Олег Васильев", "Toyota Camry", "Замена масла", 1,1, LocalDate.now(),  0, new BigDecimal("1111.2"));
-		autoService.addOrder("Олег Васильев", "Toyota Camry", "Замена масла", 1,1, LocalDate.now().plusDays(80),  0, new BigDecimal("1111.2"));
-		autoService.addOrder("Марина Иванова", "Honda Civic", "Ремонт кузова", 2, 2,LocalDate.now(),  20, new BigDecimal("18600.21"));
-		autoService.addOrder("Ксения Вито", "K5", "Замена катушек", 4, 3 , LocalDate.now(),  0, new BigDecimal("1500.21"));
-        autoService.addOrder("Дмитрий Смирнов", "BMW X5", "Диагностика электрики", 3, 3 , LocalDate.now().plusDays(2),  1, new BigDecimal("18600.21"));
-        autoService.addOrder("Инван Петров", "Granta", "Настройка зазора клапанов", 1, 3 , LocalDate.now().plusDays(2),  1, new BigDecimal("1600.10"));
-        autoService.addOrder("Инван Петров", "Granta", "Настройка зазора клапанов", 2, 4 , LocalDate.now().plusDays(2),  1, new BigDecimal("18600.91"));
-        autoService.addOrder("Инван Петров", "Granta", "Настройка зазора клапанов", 1, 4 , LocalDate.now().plusDays(2),  1, new BigDecimal("1450.8"));
-        autoService.addOrder("Инван Иваныч", "Волга", "Сбор двигателя", 1, 4 , LocalDate.now().plusDays(3),  1, new BigDecimal("1450.8"));
-        autoService.addOrder("Анатолий Кузьмин", "Nissan note", "Диагностика стартера",3,4 , LocalDate.now(),  1, new BigDecimal("18880.88"));
+		autoService.addOrder("Олег Васильев", "Toyota Camry", "Замена масла", 1,1, LocalDate.now(),  0, BigDecimal.valueOf(1111.2));
+		autoService.addOrder("Олег Васильев", "Toyota Camry", "Замена масла", 1,1, LocalDate.now().plusDays(80),  0, BigDecimal.valueOf(1111.2));
+		autoService.addOrder("Марина Иванова", "Honda Civic", "Ремонт кузова", 2, 2,LocalDate.now(),  20, BigDecimal.valueOf(18600.21));
+		autoService.addOrder("Ксения Вито", "K5", "Замена катушек", 4, 3 , LocalDate.now(),  0, BigDecimal.valueOf(1500.21));
+        autoService.addOrder("Дмитрий Смирнов", "BMW X5", "Диагностика электрики", 3, 3 , LocalDate.now().plusDays(2),  1, BigDecimal.valueOf(18600.21));
+        autoService.addOrder("Инван Петров", "Granta", "Настройка зазора клапанов", 1, 3 , LocalDate.now().plusDays(2),  1, BigDecimal.valueOf(1600.10));
+        autoService.addOrder("Инван Петров", "Granta", "Настройка зазора клапанов", 2, 4 , LocalDate.now().plusDays(2),  1, BigDecimal.valueOf(18600.91));
+        autoService.addOrder("Инван Петров", "Granta", "Настройка зазора клапанов", 1, 4 , LocalDate.now().plusDays(2),  1, BigDecimal.valueOf(1450.8));
+        autoService.addOrder("Инван Иваныч", "Волга", "Сбор двигателя", 1, 4 , LocalDate.now().plusDays(3),  1, BigDecimal.valueOf(1450.8));
+        autoService.addOrder("Анатолий Кузьмин", "Nissan note", "Диагностика стартера",3,4 , LocalDate.now(),  1, BigDecimal.valueOf(18880.88));
 		System.out.println();
 		
 		autoService.cancelOrder(7);;
