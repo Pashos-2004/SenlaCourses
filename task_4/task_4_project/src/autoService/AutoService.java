@@ -1,6 +1,7 @@
 package autoService;
 
 import java.math.BigDecimal;
+import java.nio.file.DirectoryStream.Filter;
 import java.time.DateTimeException;
 import java.time.Duration;
 import java.time.LocalDate;
@@ -11,11 +12,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 class AutoService {
-    private List<Master> masters = new java.util.ArrayList<>();
-    private List<GarageSpot> garageSpots = new java.util.ArrayList<>();
-    private List<Order> orders = new java.util.ArrayList<>();
+    private List<Master> masters = new ArrayList<>();
+    private List<GarageSpot> garageSpots = new ArrayList<>();
+    private List<Order> orders = new ArrayList<>();
     private int nextMasterId;
     private int nextSpotId;
     private int nextOrderId;
@@ -172,7 +174,6 @@ class AutoService {
     public void shiftOrderTime(Order order, int countOfDays, boolean isShiftInFuture) {
         order.shiftTime(countOfDays,isShiftInFuture);
         System.out.println("Время выполнения заказа " + order + " сдвинуто на " + countOfDays + "дней");
-        
     }
     
     public Master findMasterById(int id) {
@@ -195,28 +196,6 @@ class AutoService {
         }
     	return null;
     }
-    
-    public void printListOfMasters() {
-        System.out.println("Мастера :");
-        for(Master master : masters) {
-        	System.out.println(master);
-        }
-    }
-    
-    public void printListOfGarageSpots() {
-        System.out.println("Гаражные места :");
-        for(GarageSpot garageSpot : garageSpots) {
-        	System.out.println(garageSpot);
-        }
-    }
-    
-    public void printListOfOrders() {
-        System.out.println("Заказы : ");
-        for(Order order : orders) {
-        	System.out.println(order);
-        }
-    }
-    
     
     private Map<GarageSpot,Boolean> convertGarageSpotsListToMapForAvailableCheck(){
     	Map<GarageSpot, Boolean> garageSportsMap = new HashMap<GarageSpot, Boolean>();
@@ -270,14 +249,6 @@ class AutoService {
     	return availableGarageSpots;
     }
     
-    public void showListOfAvailableGarageSpots() {
-    	System.out.println("Свободные гаражные места :");
-    	List<GarageSpot> availableGarageSpots = getAvailableGarageSpotsOnDate(LocalDate.now());
-    	
-    	for(GarageSpot spot : availableGarageSpots)
-    		System.out.println(spot);
-    	
-    }
     
     public int getCountOfAvaliablePlacesOnDate(LocalDate date) {
     	Map<GarageSpot,Boolean> garageSpotsMap = convertGarageSpotsListToMapForAvailableCheck();
@@ -306,165 +277,109 @@ class AutoService {
     	return countOfFreeMasters<countOfFreeSpots ? countOfFreeMasters:countOfFreeSpots  ;
     }
     
-    public void showOrdersPerformedByMaster(Master master) {
-    	System.out.println("Все заказы выполняемые мастором " + master + " :");
-    	boolean isHaveOrders = false;
-    	for(Order order : orders) {
-    		if(order.getMaster().equals(master)) {
-    			System.out.println(order);
-    			isHaveOrders=true;
-    		}
-        }
-    	if(!isHaveOrders) System.out.println("Мастер свободен");
+    public List<Order> getOrdersPerformedByMaster(Master master){
+    	return  orders.stream()
+    			.filter(order -> order.getMaster().equals(master) && order.getStatus().equals(OrderStatus.IN_PROGRESS) || order.getStatus().equals(OrderStatus.PENDING)) 
+    			.collect(Collectors.toList());
     }
     
-    public void showMasterWorkedOnOrder(Order order) {
-    	System.out.println("Мастер раюотающий над заказом " + order + " :");
-    	
-    	for(Master master : masters) {
-    		if(master.equals(order.getMaster())) System.out.println(order);
-        }
+    public Master getMasterWorkedOnOrder(Order order) {
+    	return order.getMaster();
     }
     
-    public void printOrdersSortedBySubmissionDate() {
-        System.out.println("Заказы (сортировка по дате подачи):");
-        orders.stream()
+    public List<Order> getOrdersSortedBySubmissionDate() {
+        return orders.stream()
             .sorted((o1, o2) -> o1.getStartTime().compareTo(o2.getStartTime()))
-            .forEach(System.out::println);
+            .collect(Collectors.toList());
     }
-
-    public void printOrdersSortedByEstimatedCompletion() {
-        System.out.println("Заказы (сортировка по дате выполнения):");
-        orders.stream()
+    
+    public List<Order> getOrdersSortedByEstimatedCompletion() {
+        return orders.stream()
             .sorted((o1, o2) -> o1.getEstimatedEndTime().compareTo(o2.getEstimatedEndTime()))
-            .forEach(System.out::println);
+            .collect(Collectors.toList());
+    }
+
+    public List<Order> getOrdersSortedByPrice() {
+        return orders.stream()
+            .sorted((o1, o2) -> o1.getPrice().compareTo(o2.getPrice()))
+            .collect(Collectors.toList());
     }
     
-    public void printOrdersSortedByPrice() {
-        System.out.println("Заказы (сортировка по цене):");
-        orders.stream()
-            .sorted((o1, o2) -> o1.getPrice().compareTo(o2.getPrice()))
-            .forEach(System.out::println);
-    }
-
-    public void printOrdersSortedByPriceDesc() {
-        System.out.println("Заказы (сортировка по цене по убыванию):");
-        orders.stream()
+    public List<Order> getOrdersSortedByPriceDesc() {
+        return orders.stream()
             .sorted((o1, o2) -> o2.getPrice().compareTo(o1.getPrice()))
-            .forEach(System.out::println);
+            .collect(Collectors.toList());
     }
 
-    public void printOrdersSortedByPlannedStart() {
-        System.out.println("Заказы (сортировка по запланированной дате начала):");
-        orders.stream()
+    public List<Order> getOrdersSortedByPlannedStart() {
+        return orders.stream()
             .sorted((o1, o2) -> o1.getPlanedStartTime().compareTo(o2.getPlanedStartTime()))
-            .forEach(System.out::println);
+            .collect(Collectors.toList());
     }
-
     
-    public void printCurrentOrdersSortedByPrice() {
-        System.out.println("Текущие заказы (сортировка по цене):");
-        orders.stream()
+    public List<Order> getCurrentOrdersSortedByPrice() {
+        return orders.stream()
             .filter(order -> order.getStatus() == OrderStatus.PENDING || 
                             order.getStatus() == OrderStatus.IN_PROGRESS)
             .sorted((o1, o2) -> o1.getPrice().compareTo(o2.getPrice()))
-            .forEach(System.out::println);
+            .collect(Collectors.toList());
     }
-
-    public void printCurrentOrdersSortedByPriceDesc() {
-        System.out.println("Текущие заказы (сортировка по цене по убыванию):");
-        orders.stream()
+    
+    public List<Order> getCurrentOrdersSortedByPriceDesc() {
+        return orders.stream()
             .filter(order -> order.getStatus() == OrderStatus.PENDING || 
                             order.getStatus() == OrderStatus.IN_PROGRESS)
             .sorted((o1, o2) -> o2.getPrice().compareTo(o1.getPrice()))
-            .forEach(System.out::println);
+            .collect(Collectors.toList());
     }
 
-    public void printCompletedOrdersSortedByPrice(LocalDate startDate, LocalDate endDate) {
-        System.out.println("Выполненные заказы (сортировка по цене):");
-        List<Order> filteredOrders = getFilteredAndSortedOrders(
-            order -> order.getStatus() == OrderStatus.COMPLETED &&
-                    !order.getStartTime().isBefore(startDate) &&
-                    !order.getStartTime().isAfter(endDate),
-            (o1, o2) -> o1.getPrice().compareTo(o2.getPrice())
-        );
-        filteredOrders.forEach(System.out::println);
+    public List<Order> getCurrentOrdersSortedBySubmissionDate() {
+        return orders.stream()
+            .filter(order -> order.getStatus() == OrderStatus.PENDING || 
+                            order.getStatus() == OrderStatus.IN_PROGRESS)
+            .sorted((o1, o2) -> o1.getStartTime().compareTo(o2.getStartTime()))
+            .collect(Collectors.toList());
+    }
+    
+    public List<Order> getCurrentOrdersSortedByCompletionDate() {
+        return orders.stream()
+            .filter(order -> order.getStatus() == OrderStatus.PENDING || 
+                            order.getStatus() == OrderStatus.IN_PROGRESS)
+            .sorted((o1, o2) -> o1.getEstimatedEndTime().compareTo(o2.getEstimatedEndTime()))
+            .collect(Collectors.toList());
     }
 
-    public void printMastersSortedByName() {
-        System.out.println("Мастера (сортировка по алфавиту):");
-        masters.stream()
+    public List<Order> getOrdersByStatusAndDateRange(OrderStatus status, LocalDate startDate, LocalDate endDate) {
+        return orders.stream()
+            .filter(order -> order.getStatus().equals(status))
+            .filter(order -> !order.getStartTime().isBefore(startDate) && 
+                            !order.getStartTime().isAfter(endDate))
+            .sorted((o1, o2) -> o1.getStartTime().compareTo(o2.getStartTime()))
+            .collect(Collectors.toList());
+    }
+    
+    public List<Master> getMastersSortedByName() {
+        return masters.stream()
             .sorted((m1, m2) -> m1.getName().compareToIgnoreCase(m2.getName()))
-            .forEach(System.out::println);
+            .collect(Collectors.toList());
     }
 
-    public void printMastersSortedByWorkload() {
-        System.out.println("Мастера (сортировка по занятости):");
-        masters.stream()
+    public List<Master> getMastersSortedByWorkload() {
+        return masters.stream()
             .sorted((m1, m2) -> {
                 long workload1 = getMasterWorkload(m1);
                 long workload2 = getMasterWorkload(m2);
                 return Long.compare(workload2, workload1);
             })
-            .forEach(master -> {
-                long workload = getMasterWorkload(master);
-                System.out.println(master + ", текущих заказов: " + workload);
-            });
+            .collect(Collectors.toList());
     }
-
-    private long getMasterWorkload(Master master) {
-        return orders.stream()
+    
+    protected int getMasterWorkload(Master master) {
+        return (int) orders.stream()
             .filter(order -> order.getMaster().equals(master))
             .filter(order -> order.getStatus() == OrderStatus.PENDING || 
                             order.getStatus() == OrderStatus.IN_PROGRESS)
             .count();
-    }
-
-    public void printCurrentOrdersSortedBySubmissionDate() {
-        System.out.println("Текущие заказы (сортировка по дате подачи):");
-        orders.stream()
-            .filter(order -> order.getStatus() == OrderStatus.PENDING || 
-                            order.getStatus() == OrderStatus.IN_PROGRESS)
-            .sorted((o1, o2) -> o1.getStartTime().compareTo(o2.getStartTime()))
-            .forEach(System.out::println);
-    }
-
-    public void printCurrentOrdersSortedByCompletionDate() {
-        System.out.println("Текущие заказы (сортировка по дате выполнения):");
-        orders.stream()
-            .filter(order -> order.getStatus() == OrderStatus.PENDING || 
-                            order.getStatus() == OrderStatus.IN_PROGRESS)
-            .sorted((o1, o2) -> o1.getEstimatedEndTime().compareTo(o2.getEstimatedEndTime()))
-            .forEach(System.out::println);
-    }
-
-    public void printOrdersByStatusAndDateRange(OrderStatus status, LocalDate startDate, LocalDate endDate) {
-        System.out.println("Заказы со статусом " + status + " за период с " + startDate + " по " + endDate + ":");
-        orders.stream()
-            .filter(order -> order.getStatus().equals(status))
-            .filter(order -> !order.getStartTime().isBefore(startDate) && 
-                            !order.getStartTime().isAfter(endDate))
-            .sorted((o1, o2) -> o1.getStartTime().compareTo(o2.getStartTime()))
-            .forEach(System.out::println);
-    }
-
-    public void printCompletedOrdersByDateRange(LocalDate startDate, LocalDate endDate) {
-        printOrdersByStatusAndDateRange(OrderStatus.COMPLETED, startDate, endDate);
-    }
-    public void printDeletedOrdersByDateRange(LocalDate startDate, LocalDate endDate) {
-        printOrdersByStatusAndDateRange(OrderStatus.DELETED, startDate, endDate);
-    }
-
-    public void printCancelledOrdersByDateRange(LocalDate startDate, LocalDate endDate) {
-        printOrdersByStatusAndDateRange(OrderStatus.CANCELLED, startDate, endDate);
-    }
-
-    public List<Order> getFilteredAndSortedOrders(Predicate<Order> filter, 
-                                                 Comparator<Order> comparator) {
-        return orders.stream()
-            .filter(filter)
-            .sorted(comparator)
-            .collect(java.util.stream.Collectors.toList());
     }
     
     public List<Master> getMasters() {

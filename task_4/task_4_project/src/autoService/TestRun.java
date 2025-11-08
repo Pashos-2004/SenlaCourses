@@ -36,9 +36,9 @@ public class TestRun {
 		
 		autoService.cancelOrder(7);;
 		
-        autoService.printListOfMasters();
-        autoService.printListOfGarageSpots();
-        autoService.printListOfOrders();
+		InfoDisplayer.printListOfMasters(autoService);
+		InfoDisplayer.printListOfGarageSpots(autoService);
+		InfoDisplayer.printListOfOrders(autoService);
 		System.out.println();
         
         autoService.completeOrder(1);
@@ -51,18 +51,18 @@ public class TestRun {
         autoService.removeOrder(autoService.findOrderById(3));
 		System.out.println();
 		
-        autoService.printListOfMasters();
-        autoService.printListOfGarageSpots();
-        autoService.printListOfOrders();
+		InfoDisplayer.printListOfMasters(autoService);
+		InfoDisplayer.printListOfGarageSpots(autoService);
+		InfoDisplayer.printListOfOrders(autoService);
 		System.out.println();
 		
-		autoService.showListOfAvailableGarageSpots();
+		InfoDisplayer.printListOfAvailableGarageSpots(autoService);
 		System.out.println();
 		
-		autoService.showOrdersPerformedByMaster(autoService.findMasterById(3));
+		InfoDisplayer.printOrdersPerformedByMaster(autoService, autoService.findMasterById(3));
 		System.out.println();
 		
-		autoService.showMasterWorkedOnOrder(autoService.findOrderById(4));
+		InfoDisplayer.printMasterWorkedOnOrder(autoService, autoService.findOrderById(4));
 		System.out.println();
 		
 		LocalDate futureDate = LocalDate.now();
@@ -74,35 +74,35 @@ public class TestRun {
 		System.out.println("Ближайшая свободная дата " + autoService.getNearestAvailableDate());
 		System.out.println();
 		
-		autoService.printOrdersSortedBySubmissionDate();
+		InfoDisplayer.printOrdersSortedBySubmissionDate(autoService);
 		System.out.println();
-		autoService.printOrdersSortedByEstimatedCompletion();
+		InfoDisplayer.printOrdersSortedByEstimatedCompletion(autoService);
 		System.out.println();
-		autoService.printOrdersSortedByPlannedStart();
+		InfoDisplayer.printOrdersSortedByPlannedStart(autoService);
 		System.out.println();
-		autoService.printOrdersSortedByPrice();
-		System.out.println();
-
-		autoService.printMastersSortedByName();
-		System.out.println();
-		autoService.printMastersSortedByWorkload();
+		InfoDisplayer.printOrdersSortedByPrice(autoService);
 		System.out.println();
 
-		autoService.printCurrentOrdersSortedBySubmissionDate();
+		InfoDisplayer.printMastersSortedByName(autoService);
 		System.out.println();
-		autoService.printCurrentOrdersSortedByCompletionDate();
+		InfoDisplayer.printMastersSortedByWorkload(autoService);
 		System.out.println();
-		autoService.printCurrentOrdersSortedByPrice();
+
+		InfoDisplayer.printCurrentOrdersSortedBySubmissionDate(autoService);
+		System.out.println();
+		InfoDisplayer.printCurrentOrdersSortedByCompletionDate(autoService);
+		System.out.println();
+		InfoDisplayer.printCurrentOrdersSortedByPrice(autoService);
 		System.out.println();
 
 		LocalDate weekAgo = LocalDate.now().minusDays(7);
 		LocalDate tomorrow = LocalDate.now().plusDays(1);
 		
-		autoService.printCompletedOrdersByDateRange(weekAgo, tomorrow);
+		InfoDisplayer.printCompletedOrdersByDateRange(autoService, weekAgo, tomorrow);
 		System.out.println();
-		autoService.printCancelledOrdersByDateRange(weekAgo, tomorrow);
+		InfoDisplayer.printCancelledOrdersByDateRange(autoService, weekAgo, tomorrow);
 		System.out.println();
-		autoService.printDeletedOrdersByDateRange(weekAgo, tomorrow);
+		InfoDisplayer.printDeletedOrdersByDateRange(autoService, weekAgo, tomorrow);
 		
 		
 	}
