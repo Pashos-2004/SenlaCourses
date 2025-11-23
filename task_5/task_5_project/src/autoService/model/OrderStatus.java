@@ -1,4 +1,4 @@
-package autoService;
+package autoService.model;
 
 public enum OrderStatus {
     PENDING("На рассмотрении"), 

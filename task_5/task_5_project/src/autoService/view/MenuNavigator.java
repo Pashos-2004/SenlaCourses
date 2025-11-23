@@ -1,0 +1,75 @@
+package autoService.view;
+
+import java.time.LocalDate;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Scanner;
+
+import autoService.view.menuFactory.GarageSpotsMenuFactory;
+import autoService.view.menuFactory.MainMenuFactory;
+import autoService.view.menuFactory.MastersMenuFactory;
+import autoService.view.menuFactory.MenuFactory;
+import autoService.view.menuFactory.OrdersMenuFactory;
+import autoService.view.menuFactory.ReportsMenuFactory;
+
+public class MenuNavigator {
+    private static MenuNavigator instance;
+    private Map<Integer, MenuFactory> menuFactories;
+    private Scanner scanner;
+    
+    private MenuNavigator() {
+        this.scanner = new Scanner(System.in);
+        this.menuFactories = new HashMap<>();
+        initializeMenuFactories();
+    }
+    
+    public static MenuNavigator getInstance() {
+        if (instance == null) {
+            instance = new MenuNavigator();
+        }
+        return instance;
+    }
+    
+    private void initializeMenuFactories() {
+        menuFactories.put(0, new MainMenuFactory());
+        menuFactories.put(1, new MastersMenuFactory());
+        menuFactories.put(2, new GarageSpotsMenuFactory());
+        menuFactories.put(3, new OrdersMenuFactory());
+        menuFactories.put(4, new ReportsMenuFactory());
+    }
+    
+    public Menu getMenu(int menuCode) {
+        MenuFactory factory = menuFactories.get(menuCode);
+        return factory != null ? factory.createMenu() : null;
+    }
+    
+    public int getIntInput() {
+        while (!scanner.hasNextInt()) {
+            System.out.println("Пожалуйста, введите число!");
+            scanner.next();
+        }
+        int input = scanner.nextInt();
+        scanner.nextLine();
+        return input;
+    }
+    
+    public String getStringInput() {
+        return scanner.nextLine();
+    }
+    
+    public void enterToContinue() {
+    	System.out.println("Нажмите enter для продолжения");
+    	 scanner.nextLine();
+    }
+    
+    public LocalDate getDateInput() {
+        System.out.print("Введите дату (гггг-мм-дд): ");
+        String dateStr = scanner.nextLine();
+        try {
+            return LocalDate.parse(dateStr);
+        } catch (Exception e) {
+            System.out.println("Неверный формат даты! Используется текущая дата.");
+            return LocalDate.now();
+        }
+    }
+}
