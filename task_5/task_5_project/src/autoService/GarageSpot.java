@@ -19,6 +19,6 @@ class GarageSpot {
     
     @Override
     public String toString() {
-        return "GarageSpot{id=" + id + ", box='" + box + "}";
+        return "Гаражное место {id=" + id + ", бокс : '" + box + "'}";
     }
 }

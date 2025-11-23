@@ -113,9 +113,9 @@ class Order {
     
     @Override
     public String toString() {
-        return "Order{id=" + id + ", client='" + clientName + "', car='" + carModel + 
-               "', status=" + status + ", master=" + master.getName() + 
-               ", spot=" + garageSpot.getBox() +", planedStartTime ="+planedStartTime +", startTime="+startTime+ ", estimatedEndTime= "+ estimatedEndTime + ", price="+price+"}";
+        return "Заказ {id=" + id + ", Клиент : '" + clientName + "', машина : '" + carModel + 
+               "', статус заказа : " + status + ", мастер : " + master.getName() + 
+               ", " + garageSpot +", планируема дата начала работ : "+planedStartTime +", фактическая дата начала работ : "+startTime+ ", дата окончания работ : "+ estimatedEndTime + ", цена : "+price+"}";
     }
     
 }
