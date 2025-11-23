@@ -42,6 +42,6 @@ class Master {
     
     @Override
     public String toString() {
-        return "Master{id=" + id + ", name='" + name + "', specialization='" + specialization + "'}";
+        return "Мастер {id=" + id + ", ФИО : '" + name + "', специализация : '" + specialization + "'}";
     }
 }
