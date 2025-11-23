@@ -1,11 +1,11 @@
-package autoService;
+package autoService.model;
 
 import java.time.Duration;
 import java.time.LocalDate;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-class Order {
+public class Order {
     private int id;
     private String clientName;
     private String carModel;
@@ -106,9 +106,42 @@ class Order {
         this.planedStartTime = planedStartTime; 
     }
     
-    public void shiftTime(int countOfDays, boolean isShiftInFuture) {
-        if(isShiftInFuture) this.estimatedEndTime = this.estimatedEndTime.plusDays(countOfDays);
-        else this.estimatedEndTime = this.estimatedEndTime.minusDays(countOfDays);
+    public boolean shiftTime(int countOfDays, boolean isShiftInFuture) {
+        if(isShiftInFuture) {
+        	this.estimatedEndTime = this.estimatedEndTime.plusDays(countOfDays);
+        	return true;
+        } else {
+        	if(this.estimatedEndTime.minusDays(countOfDays).isAfter(startTime)) {
+        		this.estimatedEndTime = this.estimatedEndTime.minusDays(countOfDays);
+        		return true;
+        	}
+        	return false;
+        }
+        
+    }
+    
+    public boolean isPending() {
+        return status == OrderStatus.PENDING;
+    }
+    
+    public boolean isInProgress() {
+    	return status.equals(OrderStatus.IN_PROGRESS);
+    }
+    
+    public boolean isActive() {
+        return status.equals(OrderStatus.PENDING) || status.equals(OrderStatus.IN_PROGRESS);
+    }
+    
+    public boolean isCompleted() {
+        return status.equals(OrderStatus.COMPLETED);
+    }
+    
+    public boolean isCancelled() {
+        return status.equals(OrderStatus.CANCELLED);
+    }
+    
+    public boolean isDeleted() {
+        return status.equals(OrderStatus.DELETED);
     }
     
     @Override

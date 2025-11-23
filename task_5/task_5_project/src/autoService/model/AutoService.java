@@ -1,4 +1,4 @@
-package autoService;
+package autoService.model;
 
 import java.math.BigDecimal;
 import java.nio.file.DirectoryStream.Filter;
@@ -14,7 +14,7 @@ import java.util.Map;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-class AutoService {
+public class AutoService {
     private List<Master> masters = new ArrayList<>();
     private List<GarageSpot> garageSpots = new ArrayList<>();
     private List<Order> orders = new ArrayList<>();
@@ -127,7 +127,7 @@ class AutoService {
     	return orders.stream()
         .noneMatch(
             order -> order.getGarageSpot().equals(spot)
-                && (order.getStatus().equals(OrderStatus.PENDING) || order.getStatus().equals(OrderStatus.IN_PROGRESS))
+                && (order.isActive())
                 && !((order.getStartTime().isAfter(startdate) && order.getStartTime().isAfter(endDate)) || order.getEstimatedEndTime().isBefore(startdate) && order.getEstimatedEndTime().isBefore(endDate) )
         );
     }
@@ -151,6 +151,15 @@ class AutoService {
         }
     }
     
+    public void completeOrder(Order order) {
+        if (order != null) {
+            order.setStatus(OrderStatus.COMPLETED);
+            System.out.println("Заказ с ID " + order + " завершен");
+        } else {
+            System.out.println("Заказ с ID " + order + " не найден");
+        }
+    }
+    
     public void completeOrder(int orderId) {
         Order order = findOrderById(orderId);
         if (order != null) {
@@ -158,6 +167,15 @@ class AutoService {
             System.out.println("Заказ с ID " + orderId + " завершен");
         } else {
             System.out.println("Заказ с ID " + orderId + " не найден");
+        }
+    }
+    
+    public void cancelOrder(Order order) {
+        if (order != null) {
+            order.setStatus(OrderStatus.CANCELLED);
+            System.out.println("Заказ с ID " + order + " отменен");
+        } else {
+            System.out.println("Заказ с ID " + order + " не найден");
         }
     }
     
@@ -172,8 +190,11 @@ class AutoService {
     }
     
     public void shiftOrderTime(Order order, int countOfDays, boolean isShiftInFuture) {
-        order.shiftTime(countOfDays,isShiftInFuture);
-        System.out.println("Время выполнения заказа " + order + " сдвинуто на " + countOfDays + "дней");
+        if(order.shiftTime(countOfDays,isShiftInFuture)) {
+        	System.out.println("Время выполнения заказа " + order + " сдвинуто на " + countOfDays + " дней");
+        }else {
+        	System.out.println("невозможно сдвинуть дату окончания до начала выполнения");
+        }
     }
     
     public Master findMasterById(int id) {
@@ -186,6 +207,18 @@ class AutoService {
     public GarageSpot findSpotById(int id) {
     	for(GarageSpot garageSpot : garageSpots) {
     		if(garageSpot.getId()==id) return garageSpot;
+        }
+    	return null;
+    }
+    
+    public Order findActiveOrderById(int id) {
+    	for(Order order : orders) {
+    		if(order.getId()==id) {
+    			if(!order.isActive()) {
+    				return null;
+    			}
+    			return order;
+    		}
         }
     	return null;
     }
@@ -233,7 +266,7 @@ class AutoService {
     	Map<GarageSpot,Boolean> garageSpotsMap= convertGarageSpotsListToMapForAvailableCheck();
     	
     	for(Order order : orders) {
-    		if(order.getStatus().equals(OrderStatus.PENDING) || order.getStatus().equals(OrderStatus.IN_PROGRESS)) {
+    		if(order.isActive()) {
     			if(!(order.getStartTime().isAfter(date) || order.getEstimatedEndTime().isBefore(date))) {
     				garageSpotsMap.put(order.getGarageSpot(),false);
     			}
@@ -256,7 +289,7 @@ class AutoService {
     	int countOfFreeMasters = 0;
     	int countOfFreeSpots = 0;
     	for(Order order : orders) {
-    		if(order.getStatus().equals(OrderStatus.PENDING) || order.getStatus().equals(OrderStatus.IN_PROGRESS)) {
+    		if(order.isActive()) {
     			if(!(order.getStartTime().isAfter(date) || order.getEstimatedEndTime().isBefore(date))) {
     				garageSpotsMap.put(order.getGarageSpot(),false);
     				mastersMap.put(order.getMaster(), false);	
@@ -279,12 +312,18 @@ class AutoService {
     
     public List<Order> getOrdersPerformedByMaster(Master master){
     	return  orders.stream()
-    			.filter(order -> order.getMaster().equals(master) && order.getStatus().equals(OrderStatus.IN_PROGRESS) || order.getStatus().equals(OrderStatus.PENDING)) 
+    			.filter(order -> order.getMaster().equals(master) &&  order.isActive()) 
     			.collect(Collectors.toList());
     }
     
     public Master getMasterWorkedOnOrder(Order order) {
     	return order.getMaster();
+    }
+    
+    public List<Order> getActiveOrders() {
+        return orders.stream()
+        		.filter(order -> order.isActive())
+        		.collect(Collectors.toList());
     }
     
     public List<Order> getOrdersSortedBySubmissionDate() {
@@ -319,32 +358,28 @@ class AutoService {
     
     public List<Order> getCurrentOrdersSortedByPrice() {
         return orders.stream()
-            .filter(order -> order.getStatus() == OrderStatus.PENDING || 
-                            order.getStatus() == OrderStatus.IN_PROGRESS)
+            .filter(order -> order.isActive())
             .sorted((o1, o2) -> o1.getPrice().compareTo(o2.getPrice()))
             .collect(Collectors.toList());
     }
     
     public List<Order> getCurrentOrdersSortedByPriceDesc() {
         return orders.stream()
-            .filter(order -> order.getStatus() == OrderStatus.PENDING || 
-                            order.getStatus() == OrderStatus.IN_PROGRESS)
+            .filter(order -> order.isActive())
             .sorted((o1, o2) -> o2.getPrice().compareTo(o1.getPrice()))
             .collect(Collectors.toList());
     }
 
     public List<Order> getCurrentOrdersSortedBySubmissionDate() {
         return orders.stream()
-            .filter(order -> order.getStatus() == OrderStatus.PENDING || 
-                            order.getStatus() == OrderStatus.IN_PROGRESS)
+            .filter(order -> order.isActive())
             .sorted((o1, o2) -> o1.getStartTime().compareTo(o2.getStartTime()))
             .collect(Collectors.toList());
     }
     
     public List<Order> getCurrentOrdersSortedByCompletionDate() {
         return orders.stream()
-            .filter(order -> order.getStatus() == OrderStatus.PENDING || 
-                            order.getStatus() == OrderStatus.IN_PROGRESS)
+            .filter(order -> order.isActive())
             .sorted((o1, o2) -> o1.getEstimatedEndTime().compareTo(o2.getEstimatedEndTime()))
             .collect(Collectors.toList());
     }
@@ -374,7 +409,7 @@ class AutoService {
             .collect(Collectors.toList());
     }
     
-    protected int getMasterWorkload(Master master) {
+    public int getMasterWorkload(Master master) {
         return (int) orders.stream()
             .filter(order -> order.getMaster().equals(master))
             .filter(order -> order.getStatus() == OrderStatus.PENDING || 

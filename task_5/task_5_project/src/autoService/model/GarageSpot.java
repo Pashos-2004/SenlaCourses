@@ -1,6 +1,6 @@
-package autoService;
+package autoService.model;
 
-class GarageSpot {
+public class GarageSpot {
 	private int id;
     private String box;
     

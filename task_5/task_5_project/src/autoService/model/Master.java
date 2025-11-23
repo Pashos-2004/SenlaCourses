@@ -1,6 +1,6 @@
-package autoService;
+package autoService.model;
 
-class Master {
+public class Master {
     private int id;
     private String name;
     private String specialization;
