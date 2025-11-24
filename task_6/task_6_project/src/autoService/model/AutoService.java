@@ -157,7 +157,7 @@ public class AutoService {
             return;
         }
         
-        Order order = new Order(nextOrderId++, clientName, carModel, description, master, spot, planedStartTime ,startTime, daysOfWork, price);
+        Order order = new Order(nextOrderId++, clientName, carModel, description,OrderStatus.PENDING, master, spot, planedStartTime ,startTime, daysOfWork, price);
         orders.add(order);
         
         System.out.println("Добавлен заказ: " + order);
