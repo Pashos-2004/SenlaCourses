@@ -17,6 +17,10 @@ public class GarageSpot {
     	return box; 
     }
     
+    public void setBox(String box) { 
+    	this.box = box;
+    }
+    
     @Override
     public String toString() {
         return "Гаражное место {id=" + id + ", бокс : '" + box + "'}";

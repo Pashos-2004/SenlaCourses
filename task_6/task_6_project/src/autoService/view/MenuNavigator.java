@@ -57,6 +57,20 @@ public class MenuNavigator {
         return scanner.nextLine();
     }
     
+    public String getFilenameForCSV() {
+    	String filename = null;
+    	while (filename == null) {
+    		System.out.println("Введите имя файла:");
+    		filename = getStringInput();
+    	}
+    	
+    	if(filename.length()<4 || !filename.substring(filename.length()-4).equals(".csv")) {
+    		return filename+".csv";
+    	}
+    	
+    	return filename;
+	}
+    
     public void enterToContinue() {
     	System.out.println("Нажмите enter для продолжения");
     	 scanner.nextLine();

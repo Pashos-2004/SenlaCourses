@@ -18,36 +18,48 @@ public class Order {
     private LocalDate estimatedEndTime;
     private BigDecimal price;
     
-    public Order(int id, String clientName, String carModel, String description, 
-                 Master master, GarageSpot garageSpot,LocalDate planedStartTime ,LocalDate startTime, BigDecimal price) {
+    public Order(int id, String clientName, String carModel, String description, OrderStatus status,
+                 Master master, GarageSpot garageSpot,LocalDate planedStartTime ,LocalDate startTime,LocalDate estimatedEndTime, BigDecimal price) {
         this.id = id;
         this.clientName = clientName;
         this.carModel = carModel;
         this.description = description;
         this.master = master;
         this.garageSpot = garageSpot;
-        this.status = OrderStatus.PENDING;
+        this.status = status;
         this.planedStartTime = planedStartTime;
         this.startTime = startTime;
-        this.estimatedEndTime = startTime;
+        this.estimatedEndTime = estimatedEndTime;
         this.price = price;
     }
     
     
     public Order(int id, String clientName, String carModel, String description, 
             Master master, GarageSpot garageSpot, LocalDate planedStartTime , int daysOfWork, BigDecimal price) {
-    	this(id,clientName,carModel,description,master,garageSpot,planedStartTime ,planedStartTime, price);
+    	this(id,clientName,carModel,description, OrderStatus.PENDING,master,garageSpot,planedStartTime ,planedStartTime,planedStartTime, price);
     	this.estimatedEndTime = this.estimatedEndTime.plusDays(daysOfWork);
 	}
     
-    public Order(int id, String clientName, String carModel, String description, 
+    public Order(int id, String clientName, String carModel, String description, OrderStatus status,
             Master master, GarageSpot garageSpot, LocalDate planedStartTime,LocalDate startTime  , int daysOfWork, BigDecimal price) {
-    	this(id,clientName,carModel,description,master,garageSpot,planedStartTime ,planedStartTime, price);
+    	this(id,clientName,carModel,description,status,master,garageSpot,planedStartTime ,planedStartTime,planedStartTime, price);
     	this.estimatedEndTime = this.estimatedEndTime.plusDays(daysOfWork);
 	}
     
     public int getId() { 
     	return id; 
+    }
+    
+    public void setClientName(String clientName) { 
+    	this.clientName =  clientName; 
+    }
+    
+    public void setCarModel(String carModel) { 
+    	this.carModel =  carModel; 
+    }
+    
+    public void setDescription(String description) { 
+    	this.description =  description; 
     }
     
     public String getClientName() { 
@@ -74,8 +86,16 @@ public class Order {
     	return master;
     }
     
+    public void setMaster(Master master) { 
+    	this.master = master;
+    }
+    
     public GarageSpot getGarageSpot() { 
     	return garageSpot; 
+    }
+    
+    public void setGarageSpot(GarageSpot spot) { 
+    	this.garageSpot = spot;
     }
     
     public OrderStatus getStatus() {
@@ -96,6 +116,10 @@ public class Order {
     
     public void setStatus(OrderStatus status) { 
     	this.status = status; 
+    }
+    
+    public void setStartTime(LocalDate startTime) { 
+        this.startTime = startTime; 
     }
     
     public void setEstimatedEndTime(LocalDate estimatedEndTime) { 

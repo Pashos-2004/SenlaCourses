@@ -14,6 +14,8 @@ public class MastersMenuFactory implements MenuFactory {
             new MenuItem("Удалить мастера", 2),
             new MenuItem("Просмотреть всех мастеров", 3),
             new MenuItem("Мастера по загруженности", 4),
+            new MenuItem("Экспортировать в CSV", 5),
+            new MenuItem("Импортировать из CSV", 6),
             new MenuItem("Назад", 0)
         );
         return new Menu("Управление мастерами", items);

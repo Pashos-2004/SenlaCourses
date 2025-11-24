@@ -63,6 +63,8 @@ public class AutoServiceConsoleUI {
                 case 2 -> removeMaster();
                 case 3 -> showAllMasters();
                 case 4 -> showMastersByWorkload();
+                case 5 -> exportMastersToCSV();
+                case 6 -> importMastersFromCSV();
                 case 0 -> { return; }
                 default -> System.out.println("Неверный выбор!");
             }
@@ -80,6 +82,8 @@ public class AutoServiceConsoleUI {
                 case 2 -> removeGarageSpot();
                 case 3 -> showAllGarageSpots();
                 case 4 -> showAvailableSpots();
+                case 5 -> exportGarageSpotsToCSV();
+                case 6 -> importGarageSpotsFromCSV();
                 case 0 -> { return; }
                 default -> System.out.println("Неверный выбор!");
             }
@@ -99,6 +103,8 @@ public class AutoServiceConsoleUI {
                 case 4 -> removeOrder();
                 case 5 -> shiftOrderTime();
                 case 6 -> showAllOrders();
+                case 7 -> exportOrdersToCSV();
+                case 8 -> importOrdersFromCSV();
                 case 0 -> { return; }
                 default -> System.out.println("Неверный выбор!");
             }
@@ -120,6 +126,72 @@ public class AutoServiceConsoleUI {
                 default -> System.out.println("Неверный выбор!");
             }
         }
+    }
+    
+    private void importMastersFromCSV() {
+    	String filename = navigator.getFilenameForCSV();
+    	try {
+			controller.importMastersFromCSV(filename);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			return;
+		}
+    	System.out.println("Операция завершена");
+    }
+    
+    private void importOrdersFromCSV() {
+    	String filename = navigator.getFilenameForCSV();
+    	try {
+			controller.importOrdersFromCSV(filename);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			return;
+		}
+    	System.out.println("Операция завершена");
+    }
+    
+    private void importGarageSpotsFromCSV() {
+    	String filename = navigator.getFilenameForCSV();
+    	try {
+			controller.importGarageSpotsFromCSV(filename);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			return;
+		}
+    	System.out.println("Операция завершена");
+    }
+    
+    private void exportMastersToCSV() {
+    	String filename = navigator.getFilenameForCSV();
+    	try {
+			controller.exportMastersToCSV(filename);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			return;
+		}
+    	System.out.println("Операция завершена");
+    }
+    
+    private void exportOrdersToCSV() {
+    	String filename = navigator.getFilenameForCSV();
+    	try {
+			controller.exportOrdersSpotsToCSV(filename);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			return;
+		}
+    	System.out.println("Операция завершена");
+    }
+    
+    private void exportGarageSpotsToCSV() {
+    	String filename = navigator.getFilenameForCSV();
+    	try {
+			controller.exportGarageSpotsToCSV(filename);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			return;
+		}
+    	System.out.println("Операция завершена");
     }
     
     private void addMaster() {

@@ -5,14 +5,17 @@ import java.time.LocalDate;
 
 import autoService.controller.AutoServiceController;
 import autoService.model.AutoService;
+import autoService.model.OrderStatus;
 import autoService.view.AutoServiceConsoleUI;
 import autoService.view.InfoDisplayer;
 
 public class TestRun {
 
 	public static void main(String args[]) {
+		System.out.print(OrderStatus.valueOf("PENDING"));
+		
 		System.out.println("== Тест работы автосервиса ==");
-		initializeBasicDataForTest();
+		// initializeBasicDataForTest();
 		AutoServiceConsoleUI ui = AutoServiceConsoleUI.getInstance();
         ui.run();
 	}

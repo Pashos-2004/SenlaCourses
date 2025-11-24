@@ -15,7 +15,13 @@ public enum OrderStatus {
 
 	@Override
     public String toString() {
-        return "'"+title+"'";
+        return title;
     }
-    
+	
+	public static OrderStatus getOrderStatusByStr(String title) {
+		for(OrderStatus status : values()) {
+			if(status.toString().equals(title)) return status;
+		}
+		return null;
+	}
 }

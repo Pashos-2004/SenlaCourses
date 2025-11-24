@@ -28,6 +28,30 @@ public class AutoService {
         this.nextOrderId = 1;
     }
     
+    public void updateNextMasterId() {
+    	int maxId=-1;
+    	for(Master master : masters) {
+    		if(master.getId()>maxId) maxId=master.getId();
+    	}
+    	nextMasterId=maxId;
+    }
+    	
+    public void updateNextSpotId() {
+    	int maxId=-1;
+    	for(GarageSpot spot : garageSpots) {
+    		if(spot.getId()>maxId) maxId=spot.getId();
+    	}
+    	nextSpotId=maxId;
+    }
+    
+    public void updateNextOrderId() {
+    	int maxId=-1;
+    	for(Order order : orders) {
+    		if(order.getId()>maxId) maxId=order.getId();
+    	}
+    	nextOrderId=maxId;
+    }
+    
     public void addMaster(String name, String specialization) {
         Master master = new Master(nextMasterId++, name, specialization);
         masters.add(master);
@@ -78,6 +102,38 @@ public class AutoService {
         }
     }
     
+    public void addOrder(String clientName, String carModel, String description, int masterId, 
+    		int spotId,OrderStatus status,LocalDate planedStartTime , LocalDate startTime , LocalDate estimatedEndTime, BigDecimal price) {
+        Master master = findMasterById(masterId);
+        GarageSpot spot = findSpotById(spotId);
+        
+        if(status == null) {
+        	System.out.println("Невозможно установить статус заказа");
+            return;
+        }
+        
+        if (master == null) {
+            System.out.println("Мастер с ID " + masterId + " не найден");
+            return;
+        }
+        if (spot == null) {
+            System.out.println("Гаражное место с ID " + spotId + " не найдено");
+            return;
+        }
+        if (!isMasterAvailableOnDate(startTime, estimatedEndTime,master)) {
+            System.out.println("Мастер " + master + " занят(a)");
+            return;
+        }
+        if (!isGarageAvailableOnDate(startTime, estimatedEndTime,spot)) {
+            System.out.println("Гаражное место " + spot.getBox() + " занято");
+            return;
+        }
+        
+        Order order = new Order(nextOrderId++, clientName, carModel, description,status, master, spot, planedStartTime ,startTime, estimatedEndTime, price);
+        orders.add(order);
+        
+        System.out.println("Добавлен заказ: " + order);
+    }
     
     public void addOrder(String clientName, String carModel, String description, int masterId, 
     		int spotId,LocalDate planedStartTime , LocalDate startTime , int daysOfWork, BigDecimal price) {

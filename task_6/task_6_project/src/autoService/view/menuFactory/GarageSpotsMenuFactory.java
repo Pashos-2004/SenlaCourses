@@ -14,6 +14,8 @@ public class GarageSpotsMenuFactory implements MenuFactory {
             new MenuItem("Удалить гаражное место", 2),
             new MenuItem("Просмотреть все места", 3),
             new MenuItem("Свободные места на дату", 4),
+            new MenuItem("Экспортировать в CSV", 5),
+            new MenuItem("Импортировать из CSV", 6),
             new MenuItem("Назад", 0)
         );
         return new Menu("Управление гаражными местами", items);
