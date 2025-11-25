@@ -16,12 +16,12 @@ import autoService.exception.ParsingException;
 
 public class CsvService {
 	
-	public static void writeIntoCSV(String filename, String header, List<String> data) {
+	public static void writeIntoCSV(String filename, String[] header, List<String[]> data) {
 		try(BufferedWriter writer = new BufferedWriter(new FileWriter(filename))){
-			 writer.write(header);
+			 writer.write(String.join(",", header));
 			 writer.newLine();
-			 for(String str : data) {
-				 writer.write(str);
+			 for(String[] row : data) {
+				 writer.write(String.join(",", row));
 				 writer.newLine();
 			 }
 			

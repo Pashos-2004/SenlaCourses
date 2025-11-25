@@ -278,11 +278,11 @@ public class AutoServiceController {
     }
     
     public void exportMastersToCSV(String filename) {
-		String header = "id,name,specialization";
+		String[] header = {"id","name","specialization"};
 		List<Master> masters = autoService.getMasters();
-		List<String> data = new ArrayList<String>(masters.size());
+		List<String[]> data = new ArrayList<>(masters.size());
 		for(Master master : masters) {
-			data.add(master.getId()+","+master.getName()+","+master.getSpecialization());
+			data.add(new String[]{String.valueOf(master.getId()), master.getName(), master.getSpecialization()});
 		}
 		
 		try {
@@ -293,11 +293,11 @@ public class AutoServiceController {
 	}
     
     public void exportGarageSpotsToCSV(String filename) {
-		String header = "id,box";
+		String[] header = {"id","box"};
 		List<GarageSpot> spots = autoService.getGarageSpots();
-		List<String> data = new ArrayList<String>(spots.size());
+		List<String[]> data = new ArrayList<>(spots.size());
 		for(GarageSpot spot : spots) {
-			data.add(spot.getId()+","+spot.getBox());
+			data.add(new String[]{String.valueOf(spot.getId()),spot.getBox()});
 		}
 		
 		try {
@@ -308,12 +308,12 @@ public class AutoServiceController {
 	}
     
     public void exportOrdersSpotsToCSV(String filename) {
-		String header = "id,clientName,carModel,description,masterId,garageSpotId,status,startTime,planedStartTime,estimatedEndTime,price";
+		String[] header = {"id","clientName","carModel","description","masterId","garageSpotId","status","startTime","planedStartTime","estimatedEndTime","price"};
 		List<Order> orders = autoService.getOrders();
-		List<String> data = new ArrayList<String>(orders.size());
+		List<String[]> data = new ArrayList<>(orders.size());
 		for(Order order : orders) {
-			data.add(order.getId()+","+order.getClientName()+","+order.getCarModel()+","+order.getDescription()+","+order.getMaster().getId()+","+
-					order.getGarageSpot().getId()+","+order.getStatus()+","+order.getStartTime()+","+order.getPlanedStartTime()+","+order.getEstimatedEndTime()+","+order.getPrice());
+			data.add(new String[]{String.valueOf(order.getId()),order.getClientName(),order.getCarModel(),  order.getDescription(),  String.valueOf(order.getMaster().getId()),
+				String.valueOf(order.getGarageSpot().getId()),  order.getStatus().toString(),  order.getStartTime().toString(),  order.getPlanedStartTime().toString(),  order.getEstimatedEndTime().toString(),  order.getPrice().toString()});
 		}
 		
 		try {
