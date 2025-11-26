@@ -13,7 +13,7 @@ import autoService.view.menuFactory.OrdersMenuFactory;
 import autoService.view.menuFactory.ReportsMenuFactory;
 
 public class MenuNavigator {
-    private static MenuNavigator instance;
+    private volatile static MenuNavigator instance;
     private Map<Integer, MenuFactory> menuFactories;
     private Scanner scanner;
     
