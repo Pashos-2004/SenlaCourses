@@ -23,7 +23,7 @@ public class MenuNavigator {
         initializeMenuFactories();
     }
     
-    public static MenuNavigator getInstance() {
+    public static synchronized MenuNavigator getInstance() {
         if (instance == null) {
             instance = new MenuNavigator();
         }

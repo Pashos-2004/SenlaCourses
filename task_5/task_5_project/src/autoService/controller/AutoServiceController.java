@@ -17,7 +17,7 @@ public class AutoServiceController {
         this.autoService = new AutoService();
     }
     
-    public static AutoServiceController getInstance() {
+    public synchronized static AutoServiceController getInstance() {
         if (instance == null) {
             instance = new AutoServiceController();
         }
