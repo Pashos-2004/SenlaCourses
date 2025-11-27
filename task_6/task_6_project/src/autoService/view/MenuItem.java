@@ -2,23 +2,23 @@ package autoService.view;
 
 public class MenuItem {
     private String title;
-    private int actionCode;
+    private Runnable menuItemFunction;
     
-    public MenuItem(String title, int actionCode) {
+    public MenuItem(String title, Runnable menuItemFunction) {
         this.title = title;
-        this.actionCode = actionCode;
+        this.menuItemFunction = menuItemFunction;
+    }
+    
+    public void runFunction() {
+    	menuItemFunction.run();
     }
     
     public String getTitle() {
         return title;
     }
     
-    public int getActionCode() {
-        return actionCode;
-    }
-    
     @Override
     public String toString() {
-        return actionCode + ". " + title;
+        return title;
     }
 }

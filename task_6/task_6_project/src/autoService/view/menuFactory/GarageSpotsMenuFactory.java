@@ -4,19 +4,19 @@ import java.util.Arrays;
 import java.util.List;
 
 import autoService.view.Menu;
+import autoService.view.MenuFunctions;
 import autoService.view.MenuItem;
 
 public class GarageSpotsMenuFactory implements MenuFactory {
     @Override
     public Menu createMenu() {
         List<MenuItem> items = Arrays.asList(
-            new MenuItem("Добавить гаражное место", 1),
-            new MenuItem("Удалить гаражное место", 2),
-            new MenuItem("Просмотреть все места", 3),
-            new MenuItem("Свободные места на дату", 4),
-            new MenuItem("Экспортировать в CSV", 5),
-            new MenuItem("Импортировать из CSV", 6),
-            new MenuItem("Назад", 0)
+            new MenuItem("Добавить гаражное место", () -> MenuFunctions.addGarageSpot()),
+            new MenuItem("Удалить гаражное место", () -> MenuFunctions.removeGarageSpot()),
+            new MenuItem("Просмотреть все места", () -> MenuFunctions.showAllGarageSpots()),
+            new MenuItem("Свободные места на дату", () -> MenuFunctions.showAvailableSpots()),
+            new MenuItem("Импортировать данные из CSV", () -> MenuFunctions.importGarageSpotsFromCSV()),
+            new MenuItem("Экспортировать в CSV", () -> MenuFunctions.exportGarageSpotsToCSV())
         );
         return new Menu("Управление гаражными местами", items);
     }

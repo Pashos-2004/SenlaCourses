@@ -12,6 +12,10 @@ public class Menu {
         this.items = items;
     }
     
+    public void runMenuItemFunctionAt(int index) {
+    	items.get(index).runFunction();
+    }
+    
     public String getTitle() {
         return title;
     }
@@ -20,22 +24,31 @@ public class Menu {
         return items;
     }
     
-    public MenuItem getItemByCode(int code) {
-        for (MenuItem item : items) {
-            if (item.getActionCode() == code) {
-                return item;
-            }
-        }
-        return null;
+    
+    public void showMenuSelect() {
+    	while(true) {
+    		System.out.println(this.toString());
+    		int choice = MenuNavigator.getInstance().getIntInput();
+    		if(choice==0) {
+    			return;
+    		}else if(choice<=items.size() && choice > 0) {
+    			items.get(choice-1).runFunction();
+    		}else {
+    			System.out.println("Неверный выбор!");
+    		}
+    	}
     }
     
     @Override
     public String toString() {
     	String menu = "";
         menu+=("\n=== " + title + " ===\n");
+        int counter = 1;
         for (MenuItem item : items) {
-        	menu+=item+"\n";
+        	menu+=counter+". "+ item+"\n";
+        	counter++;
         }
+        menu+=("0. Выход\n");
         menu+=("Выберите действие: ");
         return menu;
     }
