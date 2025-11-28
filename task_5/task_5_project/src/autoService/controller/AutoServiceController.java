@@ -10,14 +10,14 @@ import autoService.model.Master;
 import autoService.model.Order;
 
 public class AutoServiceController {
-	private static AutoServiceController instance;
+	private volatile static AutoServiceController instance;
     private AutoService autoService;
     
     private AutoServiceController() {
         this.autoService = new AutoService();
     }
     
-    public static AutoServiceController getInstance() {
+    public synchronized static AutoServiceController getInstance() {
         if (instance == null) {
             instance = new AutoServiceController();
         }

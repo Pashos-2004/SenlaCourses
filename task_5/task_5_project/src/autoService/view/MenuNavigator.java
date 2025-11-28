@@ -13,7 +13,8 @@ import autoService.view.menuFactory.OrdersMenuFactory;
 import autoService.view.menuFactory.ReportsMenuFactory;
 
 public class MenuNavigator {
-    private static MenuNavigator instance;
+    private volatile static MenuNavigator instance;
+    private MainMenuFactory mainMenu;
     private Map<Integer, MenuFactory> menuFactories;
     private Scanner scanner;
     
@@ -23,7 +24,7 @@ public class MenuNavigator {
         initializeMenuFactories();
     }
     
-    public static MenuNavigator getInstance() {
+    public static synchronized MenuNavigator getInstance() {
         if (instance == null) {
             instance = new MenuNavigator();
         }
@@ -31,12 +32,18 @@ public class MenuNavigator {
     }
     
     private void initializeMenuFactories() {
-        menuFactories.put(0, new MainMenuFactory());
         menuFactories.put(1, new MastersMenuFactory());
         menuFactories.put(2, new GarageSpotsMenuFactory());
         menuFactories.put(3, new OrdersMenuFactory());
         menuFactories.put(4, new ReportsMenuFactory());
+        mainMenu = new MainMenuFactory();
     }
+    
+    
+    
+    public Menu getMainMenu() {
+		return mainMenu.createMenu();
+	}
     
     public Menu getMenu(int menuCode) {
         MenuFactory factory = menuFactories.get(menuCode);
