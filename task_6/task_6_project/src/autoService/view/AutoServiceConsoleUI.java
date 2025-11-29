@@ -1,12 +1,6 @@
 package autoService.view;
 
-import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.util.List;
-
 import autoService.controller.AutoServiceController;
-import autoService.model.GarageSpot;
-import autoService.model.Master;
 
 public class AutoServiceConsoleUI {
     private static AutoServiceConsoleUI instance;

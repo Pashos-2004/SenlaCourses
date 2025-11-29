@@ -1,9 +1,7 @@
 package autoService.model;
 
-import java.time.Duration;
-import java.time.LocalDate;
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 public class Order {
     private int id;

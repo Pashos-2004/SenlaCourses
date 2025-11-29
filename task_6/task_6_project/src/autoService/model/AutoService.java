@@ -1,17 +1,11 @@
 package autoService.model;
 
 import java.math.BigDecimal;
-import java.nio.file.DirectoryStream.Filter;
-import java.time.DateTimeException;
-import java.time.Duration;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 public class AutoService {

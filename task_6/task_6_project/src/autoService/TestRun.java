@@ -4,10 +4,8 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 
 import autoService.controller.AutoServiceController;
-import autoService.model.AutoService;
 import autoService.model.OrderStatus;
 import autoService.view.AutoServiceConsoleUI;
-import autoService.view.InfoDisplayer;
 
 public class TestRun {
 
