@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
+import autoService.config.ConfigManager;
 import autoService.controller.AutoServiceController;
 import autoService.model.GarageSpot;
 import autoService.model.Master;
@@ -11,7 +12,8 @@ import autoService.model.Master;
 public class MenuFunctions {
 	private static MenuNavigator navigator = MenuNavigator.getInstance();
 	private static AutoServiceController controller = AutoServiceController.getInstance();
-
+	private static ConfigManager config = ConfigManager.getInstance();
+	
 	public static void showSubMenuSelect(int index) {
     	navigator.getMenu(index).showMenuSelect();
 	}
@@ -47,11 +49,53 @@ public class MenuFunctions {
 			counter += 1;
 		}
 	}
-
+	
+	public static void addPlaceAtGarageSpot() {
+		if(!config.isGarageSpotsModificationEnabled()) {
+			System.out.print("Данная функция заблокирована конфигурацией");
+			return;
+		}
+		showAllGarageSpots();
+		System.out.print("Введите ID бокса: ");
+		int spotId = navigator.getIntInput();
+		controller.findMasterById(spotId);
+		GarageSpot spot = controller.findGarageSpot(spotId);
+		if(spot == null) {
+			System.out.println("Не удалось найти граж с таким ID");
+			return;
+		}
+		System.out.println("Введите количество мест для добавления: ");
+		int count = navigator.getIntInput();
+		controller.addPlaceAtGarageSpot(spot, count);
+	}
+	
+	public static void deletePlaceAtGarageSpot() {
+		if(!config.isGarageSpotsModificationEnabled()) {
+			System.out.print("Данная функция заблокирована конфигурацией");
+			return;
+		}
+		showAllGarageSpots();
+		System.out.print("Введите ID бокса: ");
+		int spotId = navigator.getIntInput();
+		GarageSpot spot = controller.findGarageSpot(spotId);
+		if(spot == null) {
+			System.out.println("Не удалось найти граж с таким ID");
+			return;
+		}
+		System.out.println("Введите количество мест для удаления: ");
+		int count = navigator.getIntInput();
+		if(count>spot.getCountOfPlacesForCars()-1) {
+			System.out.println("Невозможно убрать больше мест мест, чем есть в гараже");
+			return;
+		}
+		controller.deletePlaceAtGarageSpot(spot, count);
+		
+	}
+	
 	public static void addGarageSpot() {
-		System.out.print("Введите номер бокса: ");
+		System.out.println("Введите номер бокса: ");
 		String box = navigator.getStringInput();
-		System.out.print("Введите число мест: ");
+		System.out.println("Введите число мест: ");
 		int countOfPlacesForCars = navigator.getIntInput();
 		controller.addGarageSpot(box,countOfPlacesForCars);
 	}
@@ -122,6 +166,10 @@ public class MenuFunctions {
 	}
 
 	public static void removeOrder() {
+		if(!config.isOrderDeletionEnabled()) {
+			System.out.print("Данная функция заблокирована конфигурацией");
+			return;
+		}
 		showActiveOrders();
 		System.out.print("Введите ID заказа для удаления: ");
 		int orderId = navigator.getIntInput();
@@ -129,6 +177,10 @@ public class MenuFunctions {
 	}
 
 	public static void shiftOrderTime() {
+		if(!config.isOrderTimeShiftEnabled()) {
+			System.out.print("Данная функция заблокирована конфигурацией");
+			return;
+		}
 		showActiveOrders();
 		System.out.print("Введите ID заказа: ");
 		int orderId = navigator.getIntInput();

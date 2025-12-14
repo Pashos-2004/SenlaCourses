@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import autoService.config.ConfigManager;
 import autoService.exception.CsvOperationException;
 import autoService.exception.ParsingException;
 import autoService.model.AutoService;
@@ -17,10 +18,12 @@ import autoService.service.CsvService;
 
 public class AutoServiceController {
 	private static AutoServiceController instance;
-    private  AutoService autoService;
+    private AutoService autoService;
+   
     
     private AutoServiceController() {
-        this.autoService = new AutoService();
+    	ConfigManager.getInstance();
+    	this.autoService = new AutoService();
     }
     
     public static AutoServiceController getInstance() {
@@ -103,6 +106,10 @@ public class AutoServiceController {
     
     public List<Order> getAllOrders() {
         return autoService.getOrders();
+    }
+    
+    public GarageSpot findGarageSpot(int id) {
+        return autoService.findSpotById(id);
     }
     
     public Order findOrderById(int id) {
@@ -309,6 +316,14 @@ public class AutoServiceController {
 		}catch (Exception e) {
 			throw new CsvOperationException("Ошибка при экспорте гаражных мест в CSV: " + e.getMessage(),e);
 		}
+	}
+    
+    public void addPlaceAtGarageSpot(GarageSpot spot, int count) {
+    	spot.setCountOfPlacesForCars(count+spot.getCountOfPlacesForCars());
+	}
+	
+	public void deletePlaceAtGarageSpot(GarageSpot spot, int count) {
+		spot.setCountOfPlacesForCars(spot.getCountOfPlacesForCars()-count);
 	}
     
     public void exportOrdersSpotsToCSV(String filename) {
