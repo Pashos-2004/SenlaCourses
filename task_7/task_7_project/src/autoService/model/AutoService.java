@@ -1,5 +1,6 @@
 package autoService.model;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -8,7 +9,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class AutoService {
+public class AutoService implements Serializable {
+	private static final long serialVersionUID = 0L;
     private List<Master> masters = new ArrayList<>();
     private List<GarageSpot> garageSpots = new ArrayList<>();
     private List<Order> orders = new ArrayList<>();

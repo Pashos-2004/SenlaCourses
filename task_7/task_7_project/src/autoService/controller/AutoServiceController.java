@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import autoService.config.ConfigManager;
+import autoService.config.StateManager;
 import autoService.exception.CsvOperationException;
 import autoService.exception.ParsingException;
 import autoService.model.AutoService;
@@ -23,7 +24,11 @@ public class AutoServiceController {
     
     private AutoServiceController() {
     	ConfigManager.getInstance();
-    	this.autoService = new AutoService();
+    	if(StateManager.getInstance().stateFileExists()) {
+    		this.autoService = StateManager.getInstance().loadState();
+    	}else {
+    		this.autoService = new AutoService();
+    	}
     }
     
     public static AutoServiceController getInstance() {

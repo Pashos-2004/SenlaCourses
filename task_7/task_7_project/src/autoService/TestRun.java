@@ -3,7 +3,9 @@ package autoService;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+import autoService.config.StateManager;
 import autoService.controller.AutoServiceController;
+import autoService.model.AutoService;
 import autoService.model.OrderStatus;
 import autoService.view.AutoServiceConsoleUI;
 
@@ -13,9 +15,10 @@ public class TestRun {
 		System.out.print(OrderStatus.valueOf("PENDING"));
 		
 		System.out.println("== Тест работы автосервиса ==");
-		initializeBasicDataForTest();
+		//initializeBasicDataForTest();
 		AutoServiceConsoleUI ui = AutoServiceConsoleUI.getInstance();
         ui.run();
+        StateManager.getInstance().saveState(AutoServiceController.getInstance().getAutoService());
 	}
 	
 	public static void initializeBasicDataForTest() {

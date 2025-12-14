@@ -1,6 +1,9 @@
 package autoService.model;
 
-public class GarageSpot {
+import java.io.Serializable;
+
+public class GarageSpot implements Serializable {
+	private static final long serialVersionUID = 1L;
 	private int id;
     private String box;
     private int countOfPlacesForCars;
