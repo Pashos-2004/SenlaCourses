@@ -6,6 +6,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import autoService.DI.annotations.Autowired;
+import autoService.DI.annotations.Component;
+import autoService.DI.annotations.Inject;
 import autoService.config.ConfigManager;
 import autoService.config.StateManager;
 import autoService.exception.CsvOperationException;
@@ -17,23 +20,40 @@ import autoService.model.Order;
 import autoService.model.OrderStatus;
 import autoService.service.CsvService;
 
+
+@Component(name = "autoServiceController")
 public class AutoServiceController {
 	private static AutoServiceController instance;
     private AutoService autoService;
    
+    @Autowired
+    private ConfigManager configManager;
     
-    private AutoServiceController() {
-    	ConfigManager.getInstance();
-    	if(StateManager.getInstance().stateFileExists()) {
-    		this.autoService = StateManager.getInstance().loadState();
-    	}else {
-    		this.autoService = new AutoService();
-    	}
+    @Autowired
+    private StateManager stateManager;
+    
+    @Inject
+    public AutoServiceController(ConfigManager configManager, StateManager stateManager) {
+        this.configManager = configManager;
+        this.stateManager = stateManager;
+        initialize();
+    }
+    
+    private void initialize() {
+        if (stateManager.stateFileExists()) {
+            this.autoService = stateManager.loadState();
+        } else {
+            this.autoService = new AutoService();
+        }
+        
+        instance = this;
+        System.out.println("AutoServiceController инициализирован через DI");
     }
     
     public static AutoServiceController getInstance() {
         if (instance == null) {
-            instance = new AutoServiceController();
+            instance = new AutoServiceController(ConfigManager.getInstance(),
+                    StateManager.getInstance());
         }
         return instance;
     }

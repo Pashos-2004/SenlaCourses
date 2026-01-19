@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
+import autoService.DI.annotations.Component;
+import autoService.DI.annotations.Inject;
 import autoService.view.menuFactory.GarageSpotsMenuFactory;
 import autoService.view.menuFactory.MainMenuFactory;
 import autoService.view.menuFactory.MastersMenuFactory;
@@ -12,16 +14,21 @@ import autoService.view.menuFactory.MenuFactory;
 import autoService.view.menuFactory.OrdersMenuFactory;
 import autoService.view.menuFactory.ReportsMenuFactory;
 
+@Component(name = "menuNavigator")
 public class MenuNavigator {
     private volatile static MenuNavigator instance;
     private MainMenuFactory mainMenu;
     private Map<Integer, MenuFactory> menuFactories;
     private Scanner scanner;
     
-    private MenuNavigator() {
+    @Inject
+    public MenuNavigator() {
         this.scanner = new Scanner(System.in);
         this.menuFactories = new HashMap<>();
         initializeMenuFactories();
+        
+        instance = this;
+        System.out.println("MenuNavigator инициализирован через DI");
     }
     
     public static synchronized MenuNavigator getInstance() {

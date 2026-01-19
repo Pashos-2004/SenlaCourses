@@ -3,6 +3,7 @@ package autoService;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+import autoService.DI.DIContainer;
 import autoService.config.StateManager;
 import autoService.controller.AutoServiceController;
 import autoService.model.AutoService;
@@ -12,13 +13,37 @@ import autoService.view.AutoServiceConsoleUI;
 public class TestRun {
 
 	public static void main(String args[]) {
-		System.out.print(OrderStatus.valueOf("PENDING"));
 		
 		System.out.println("== Тест работы автосервиса ==");
 		//initializeBasicDataForTest();
-		AutoServiceConsoleUI ui = AutoServiceConsoleUI.getInstance();
+		/*AutoServiceConsoleUI ui = AutoServiceConsoleUI.getInstance();
         ui.run();
         StateManager.getInstance().saveState(AutoServiceController.getInstance().getAutoService());
+        */
+        
+		DIContainer container = DIContainer.getInstance();
+        
+        try {
+            container.initialize(
+                "autoService.config",
+                "autoService.controller", 
+                "autoService.view",
+                "autoService.service"
+            );
+            
+            container.printBeansInfo();
+            
+            AutoServiceConsoleUI consoleUI = container.getBean(AutoServiceConsoleUI.class);
+            
+            consoleUI.run();
+            
+        } catch (Exception e) {
+            System.err.println("Ошибка запуска приложения: " + e.getMessage());
+            e.printStackTrace();
+        } finally {
+            DIContainer.getInstance().shutdown();
+        }
+        
 	}
 	
 	public static void initializeBasicDataForTest() {

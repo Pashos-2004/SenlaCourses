@@ -7,15 +7,20 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
+import autoService.DI.annotations.Component;
+import autoService.DI.annotations.Inject;
 import autoService.model.AutoService;
 
+@Component(name = "stateManager")
 public class StateManager {
 	private static final String STATE_FILE = "autoservice_state.save";
 	private static StateManager instance;
-
+	
+	@Inject
 	private StateManager() {
 	}
 
+	
 	public static StateManager getInstance() {
 		if (instance == null) {
 			instance = new StateManager();

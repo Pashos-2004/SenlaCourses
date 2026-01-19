@@ -7,9 +7,11 @@ import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.Properties;
 
+import autoService.DI.annotations.Component;
+import autoService.DI.annotations.Inject;
 import autoService.exception.ConfigException;
 
-
+@Component(name = "configManager")
 public class ConfigManager {
 	private static final String CONFIG_FILE = "autoservice.conf";
 	
@@ -43,7 +45,8 @@ public class ConfigManager {
 		
 	}
 	
-	private ConfigManager() {
+	@Inject
+	public ConfigManager() {
 		//properties = new Properties(DEFAULT_PROPERTIES);
 		
 		loadConfigurationFromAnnotations();
