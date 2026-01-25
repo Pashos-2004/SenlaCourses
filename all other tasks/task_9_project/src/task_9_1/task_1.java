@@ -2,7 +2,7 @@ package task_9_1;
 
 public class task_1 {
 
-    private static final Object monitor = new Object();
+    private static final Object lock = new Object();
 
     public static void main(String[] args) throws Exception {
         Thread worker = new Thread(() -> {
@@ -24,7 +24,7 @@ public class task_1 {
 
     private static void blockedDemo() {
         Thread locker = new Thread(() -> {
-            synchronized (monitor) {
+            synchronized (lock) {
                 try {
                     Thread.sleep(500);
                 } catch (InterruptedException ignored) {}
@@ -38,7 +38,7 @@ public class task_1 {
         } catch (InterruptedException ignored) {}
 
         Thread blockedThread = new Thread(() -> {
-            synchronized (monitor) {
+            synchronized (lock) {
                 System.out.println("blockedThread вошёл в synchronized");
             }
         }, "Blocked-Thread");
@@ -60,9 +60,9 @@ public class task_1 {
 
     private static void waitingDemo() {
         Thread waitingThread = new Thread(() -> {
-            synchronized (monitor) {
+            synchronized (lock) {
                 try {
-                    monitor.wait();
+                	lock.wait();
                 } catch (InterruptedException ignored) {}
             }
         }, "Waiting-Thread");
@@ -75,8 +75,8 @@ public class task_1 {
 
         System.out.println("Состояние waitingThread (ожидаемо WAITING): " + waitingThread.getState());
 
-        synchronized (monitor) {
-            monitor.notify();
+        synchronized (lock) {
+        	lock.notify();
         }
 
         try {
