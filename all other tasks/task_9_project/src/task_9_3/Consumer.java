@@ -14,15 +14,14 @@ public class Consumer implements Runnable{
 	public void run() {
 		
 		try {
-            while (true) {
-            	while (true) {
-                    int value = buffer.take();
-                    System.out.println("Потребили из буффера : " + value);
-                    Thread.sleep(50+random.nextInt(450));
-                }
-            }
+			while (true) {
+				int value = buffer.take();
+				System.out.println("Потребили из буффера : " + value);
+				Thread.sleep(50+random.nextInt(450));
+			}
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
+            
         }
 		
 	}
