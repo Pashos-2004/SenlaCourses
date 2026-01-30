@@ -20,6 +20,7 @@ INSERT INTO Product (maker, model, type) VALUES
 ('C', 'C1', 'PC'),
 ('C', 'C2', 'PC'),
 ('C', 'C3', 'PC'),
+('C', 'C4', 'Printer'),
 ('D', 'D1', 'PC'),
 ('D', 'D2', 'Laptop'),
 ('D', 'D3', 'PC'),
@@ -34,6 +35,7 @@ INSERT INTO Product (maker, model, type) VALUES
 ('G', 'G2', 'PC'),
 ('H', 'H1', 'PC'),
 ('H', 'H2', 'Laptop'),
+('H', 'H4', 'Laptop'),
 ('H', 'H3', 'PC'),
 ('I', 'I1', 'Printer');
 INSERT INTO PC (model, speed, ram, hd, cd, price) VALUES
@@ -83,8 +85,8 @@ INSERT INTO Laptop (model, speed, ram, hd, screen, price) VALUES
 ('F3', 500, 4, 80, 13, 400.00),   
 ('A2', 1800, 16, 512, 15, 1200.00),   
 ('A5', 1600, 8, 100, 14, 800.00),    
-('H2', 800, 8, 250, 14, 700.00);
-
+('H2', 800, 8, 250, 14, 700.00),
+('H4', 300, 8, 250, 14, 700.00);
 INSERT INTO Printer (model, color, type, price) VALUES
 ('A3', 'y', 'Jet', 200.00),
 ('B3', 'y', 'Laser', 500.00),
